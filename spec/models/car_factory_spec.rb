@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe CarFactory do
-    components = JSON.parse((ENV["pg_car_components"] == nil ? '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}' : ENV["pg_car_components"]))
+    components = JSON.parse((ENV["CAR_COMPONENTS"] == nil ? '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}' : ENV["CAR_COMPONENTS"]))
 
     it "should have three production lines and a completed cars array existing when created" do
         carFactory = CarFactory.new

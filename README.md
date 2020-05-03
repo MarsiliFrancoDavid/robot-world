@@ -17,34 +17,34 @@ You'll have an `application.yml` file in your `config` folder, here you will be 
 This is an example that you can copy and paste to the file:
 
     #DB Info
-    pg_username: "postgres"
-    pg_password: "1234"
+    PG_USERNAME: "postgres"
+    PG_PASSWORD: "1234"
 
     #Project Info
-    pg_start_from_scratch: "true"
-    pg_car_components: '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}'
-    pg_car_models: '{"2002":["Audi A7","Abarth Punto","Alfa Romeo Stelvio","Alpine A110"],"2010":["Aston Martin DB11","BMW X2","Borgward BX7","Bugatti Veyron 16.4"],"2020":["Cadillac CTS","Chevrolet Cruze"]}'
-    pg_carcomponent_deffective_percentage: "2"
-    pg_car_min_price_range: "2000"
-    pg_car_max_price_range: "15000"
-    pg_car_min_costprice_range: "200"
-    pg_car_max_costprice_range: "500"
-    pg_cars_produced_per_min: "10"
-    pg_time_between_buying_cars: "10"
-    pg_commented_production: "false"
-    pg_slack_webhook: "https://hooks.slack.com/services/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"
-    pg_percentage_to_ask_about_pending_cars: "20"
-    pg_max_retries_on_pending_cars: "3"
-    pg_exchange_amount_in_exchange_wave: "3"
+    START_FROM_SCRATCH: "true"
+    CAR_COMPONENTS: '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}'
+    CAR_MODELS: '{"2002":["Audi A7","Abarth Punto","Alfa Romeo Stelvio","Alpine A110"],"2010":["Aston Martin DB11","BMW X2","Borgward BX7","Bugatti Veyron 16.4"],"2020":["Cadillac CTS","Chevrolet Cruze"]}'
+    COMPONENT_DEFFECTIVE_PERCENTAGE: "2"
+    CAR_MIN_PRICE_RANGE: "2000"
+    CAR_MAX_PRICE_RANGE: "15000"
+    CAR_MIN_COSTPRICE_RANGE: "200"
+    CAR_MAX_COSTPRICE_RANGE: "500"
+    CARS_PRODUCED_PER_MIN: "10"
+    TIME_BETWEEN_BUYING_CARS: "10"
+    COMMENTED_PRODUCTION: "false"
+    SLACK_WEBHOOK: "https://hooks.slack.com/services/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"
+    PERCENTAGE_TO_ASK_ABOUT_PENDING_CARS: "20"
+    MAX_RETRIES_ON_PENDING_CARS: "3"
+    EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE: "3"
 
 
-All of the variables are harmless except for the `pg_start_from_scratch` one, you must be careful, if starting from scratch, to have you DB populated, otherwise the processes won't behave as expected.
+All of the variables are harmless except for the `START_FROM_SCRATCH` one, you must be careful, if starting from scratch, to have you DB populated, otherwise the processes won't behave as expected.
 
-The variables are all expressed in integers to simplify operations and the time related ones such as `pg_time_between_buying_cars` (actually the only one) is considered as minutes.
+The variables are all expressed in integers to simplify operations and the time related ones such as `TIME_BETWEEN_BUYING_CARS` (actually the only one) is considered as minutes.
 
 Also, all of the values specified (except for the ones for the database and the one for the slack webhook) have a default value inside the project, so if none's specified, there will be no conflict.
 
-Take into consideration that the value `pg_car_components` and `pg_car_models` are taking a parsed JSON string to work, so it must be surrounded by simple quotes and using double quotes for key strings.
+Take into consideration that the value `CAR_COMPONENTS` and `CAR_MODELS` are taking a parsed JSON string to work, so it must be surrounded by simple quotes and using double quotes for key strings.
 
 Now, in this order, run:
 
@@ -76,7 +76,7 @@ The first time you run this project is the first time you will need to run all o
 Here are the commands representing the different processes of the project, run them in separate terminals for better discernment of the information:
 
 
-`docker-compose run web rake db:seed` This will, if wanted, erase all records an populate the DB with the ones needed to begin or just create new car models, depending on the variable `pg_start_from_scratch` from the `application.yml` config file.
+`docker-compose run web rake db:seed` This will, if wanted, erase all records an populate the DB with the ones needed to begin or just create new car models, depending on the variable `START_FROM_SCRATCH` from the `application.yml` config file.
 
 `docker-compose run web rake robot_builder:start_production` Will start the robot builder car creation process
 

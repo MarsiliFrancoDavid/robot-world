@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe CarModel do
-    components = JSON.parse((ENV["pg_car_components"] == nil ? '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}' : ENV["pg_car_components"]))
+    components = JSON.parse((ENV["CAR_COMPONENTS"] == nil ? '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}' : ENV["CAR_COMPONENTS"]))
     it "should be created when its attributes are passed in properly" do
         carModel = CarModel.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500)
         

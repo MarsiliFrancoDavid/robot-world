@@ -1,20 +1,20 @@
 #DB Info
-pg_username: "postgres"
-pg_password: "1234"
+PG_USERNAME: "postgres"
+PG_PASSWORD: "1234"
 
 #Project Info
-pg_start_from_scratch: "true"
-pg_car_components: '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}'
-pg_car_models: '{"2002":["Audi A7","Abarth Punto","Alfa Romeo Stelvio","Alpine A110"],"2010":["Aston Martin DB11","BMW X2","Borgward BX7","Bugatti Veyron 16.4"],"2020":["Cadillac CTS","Chevrolet Cruze"]}'
-pg_carcomponent_deffective_percentage: "2"
-pg_car_min_price_range: "2000"
-pg_car_max_price_range: "15000"
-pg_car_min_costprice_range: "200"
-pg_car_max_costprice_range: "500"
-pg_cars_produced_per_min: "10"
-pg_time_between_buying_cars: "10"
-pg_commented_production: "false"
-pg_slack_webhook: "https://hooks.slack.com/services/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"
-pg_percentage_to_ask_about_pending_cars: "20"
-pg_max_retries_on_pending_cars: "3"
-pg_exchange_amount_in_exchange_wave: "3"
+START_FROM_SCRATCH: "true"
+CAR_COMPONENTS: '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}'
+CAR_MODELS: '{"2002":["Audi A7","Abarth Punto","Alfa Romeo Stelvio","Alpine A110"],"2010":["Aston Martin DB11","BMW X2","Borgward BX7","Bugatti Veyron 16.4"],"2020":["Cadillac CTS","Chevrolet Cruze"]}'
+COMPONENT_DEFFECTIVE_PERCENTAGE: "2"
+CAR_MIN_PRICE_RANGE: "2000"
+CAR_MAX_PRICE_RANGE: "15000"
+CAR_MIN_COSTPRICE_RANGE: "200"
+CAR_MAX_COSTPRICE_RANGE: "500"
+CARS_PRODUCED_PER_MIN: "10"
+TIME_BETWEEN_BUYING_CARS: "10"
+COMMENTED_PRODUCTION: "false"
+SLACK_WEBHOOK: "https://hooks.slack.com/services/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"
+PERCENTAGE_TO_ASK_ABOUT_PENDING_CARS: "20"
+MAX_RETRIES_ON_PENDING_CARS: "3"
+EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE: "3"

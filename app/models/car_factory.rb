@@ -18,7 +18,7 @@ class CarFactory
     end
    
     def startProduction(car)
-        verboseProd = (ENV["pg_commented_production"] == nil ? "false" : ENV["pg_commented_production"].downcase)
+        verboseProd = (ENV["COMMENTED_PRODUCTION"] == nil ? "false" : ENV["COMMENTED_PRODUCTION"].downcase)
         commentedProduction = verboseProd == "true"
         while(!car.completed)
             if(commentedProduction)

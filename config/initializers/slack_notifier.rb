@@ -1,3 +1,3 @@
 module SlackNotifier
-    CLIENT = Slack::Notifier.new ENV["pg_slack_webhook"]
+    CLIENT = Slack::Notifier.new ENV["SLACK_WEBHOOK"]
 end

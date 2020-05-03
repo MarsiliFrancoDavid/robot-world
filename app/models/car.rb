@@ -6,7 +6,7 @@ class Car < ApplicationRecord
   validate :all_components_loaded, :on => :create
 
   def all_components_loaded
-      components = JSON.parse(ENV["pg_car_components"])
+      components = JSON.parse(ENV["CAR_COMPONENTS"])
       valid = true
 
       unless(components == {})

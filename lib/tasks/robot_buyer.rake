@@ -2,15 +2,15 @@ namespace :robot_buyer do
     desc "Robot buyer tasks"
 
     task buy_cars: [:environment] do
-        sleepTime = (ENV["pg_time_between_buying_cars"] == nil ? 10 : ENV["pg_time_between_buying_cars"].to_i)
+        sleepTime = (ENV["TIME_BETWEEN_BUYING_CARS"] == nil ? 10 : ENV["TIME_BETWEEN_BUYING_CARS"].to_i)
 
         loop do
             sleep(sleepTime.minutes)
             carModels = CarModel.all
             storeStock = StoreStock.find_by name: "Store Stock"
             if(carModels.length > 0 && storeStock != nil)
-                buyPendingProb = (ENV["pg_percentage_to_ask_about_pending_cars"] == nil ? 20 : ENV["pg_percentage_to_ask_about_pending_cars"].to_i)
-                maxRetries = (ENV["pg_max_retries_on_pending_cars"] == nil ? 3 : ENV["pg_max_retries_on_pending_cars"].to_i)
+                buyPendingProb = (ENV["PERCENTAGE_TO_ASK_ABOUT_PENDING_CARS"] == nil ? 20 : ENV["PERCENTAGE_TO_ASK_ABOUT_PENDING_CARS"].to_i)
+                maxRetries = (ENV["MAX_RETRIES_ON_PENDING_CARS"] == nil ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
 
                 #each time I execute the loop, I need to refresh this array because the previous orders that were in guarantee still
                 #now may not be.
@@ -86,7 +86,7 @@ namespace :robot_buyer do
     task exchange_cars: [:environment] do
         loop do
             sleep(1.hour)
-            exchangeAmountInWave = (ENV["pg_exchange_amount_in_exchange_wave"] == nil ? 3 : ENV["pg_exchange_amount_in_exchange_wave"].to_i)
+            exchangeAmountInWave = (ENV["EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE"] == nil ? 3 : ENV["EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE"].to_i)
             completedOrders = Array.new(Order.all).select { | order | order.status == "complete" && order.inGuarantee}
             exchangePendingOrders = Array.new(Order.all).select { | order | order.status == "exchange pending"}
             carModels = CarModel.all

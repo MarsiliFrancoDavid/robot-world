@@ -1,4 +1,4 @@
-startFromScratch = (ENV["pg_start_from_scratch"] == nil ? "false" : ENV["pg_start_from_scratch"].downcase)
+startFromScratch = (ENV["START_FROM_SCRATCH"] == nil ? "false" : ENV["START_FROM_SCRATCH"].downcase)
 startFromScratch = startFromScratch == "true"
 if (startFromScratch)
     begin
@@ -24,12 +24,11 @@ if (startFromScratch)
 end
 
 begin
-    carModels = JSON.parse(ENV["pg_car_models"] == nil ? '{"2002":["Audi A7","Alfa Romeo Stelvio"],"2020":["Cadillac CTS","Chevrolet Cruze"]}' : ENV["pg_car_models"])
-    # carGenerations = (ENV["pg_car_generations"] == nil ? [2002,2003,2004,2010,2020] : ENV["pg_car_generations"].split(','))
-    min_price = (ENV["pg_car_min_price_range"] == nil ? 10000 : ENV["pg_car_min_price_range"].to_i)
-    max_price = (ENV["pg_car_max_price_range"] == nil ? 20000 : ENV["pg_car_max_price_range"].to_i)
-    min_cost = (ENV["pg_car_min_costprice_range"] == nil ? 1000 : ENV["pg_car_min_costprice_range"].to_i)
-    max_cost = (ENV["pg_car_max_costprice_range"] == nil ? 5000 : ENV["pg_car_max_costprice_range"].to_i)
+    carModels = JSON.parse(ENV["CAR_MODELS"] == nil ? '{"2002":["Audi A7","Alfa Romeo Stelvio"],"2020":["Cadillac CTS","Chevrolet Cruze"]}' : ENV["CAR_MODELS"])
+    min_price = (ENV["CAR_MIN_PRICE_RANGE"] == nil ? 10000 : ENV["CAR_MIN_PRICE_RANGE"].to_i)
+    max_price = (ENV["CAR_MAX_PRICE_RANGE"] == nil ? 20000 : ENV["CAR_MAX_PRICE_RANGE"].to_i)
+    min_cost = (ENV["CAR_MIN_COSTPRICE_RANGE"] == nil ? 1000 : ENV["CAR_MIN_COSTPRICE_RANGE"].to_i)
+    max_cost = (ENV["CAR_MAX_COSTPRICE_RANGE"] == nil ? 5000 : ENV["CAR_MAX_COSTPRICE_RANGE"].to_i)
 
     carModels.each do | key , value |
         if(value.length > 0)
