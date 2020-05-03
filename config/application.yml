@@ -1,6 +1,6 @@
 #DB Info
-pg_username: "yourpgusername"
-pg_password: "yourpgpassword"
+pg_username: "postgres"
+pg_password: "1234"
 
 #Project Info
 pg_start_from_scratch: "true"

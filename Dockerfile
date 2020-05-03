@@ -13,7 +13,6 @@ WORKDIR /robot-world
 COPY Gemfile /robot-world/Gemfile
 COPY Gemfile.lock /robot-world/Gemfile.lock
 RUN bundle install
-RUN yarn install
 COPY . /robot-world
 
 # Start the main process.
