@@ -1,0 +1,20 @@
+#DB Info
+pg_username: "yourpgusername"
+pg_password: "yourpgpassword"
+
+#Project Info
+pg_start_from_scratch: "true"
+pg_car_components: '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}'
+pg_car_models: '{"2002":["Audi A7","Abarth Punto","Alfa Romeo Stelvio","Alpine A110"],"2010":["Aston Martin DB11","BMW X2","Borgward BX7","Bugatti Veyron 16.4"],"2020":["Cadillac CTS","Chevrolet Cruze"]}'
+pg_carcomponent_deffective_percentage: "2"
+pg_car_min_price_range: "2000"
+pg_car_max_price_range: "15000"
+pg_car_min_costprice_range: "200"
+pg_car_max_costprice_range: "500"
+pg_cars_produced_per_min: "10"
+pg_time_between_buying_cars: "10"
+pg_commented_production: "false"
+pg_slack_webhook: "https://hooks.slack.com/services/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"
+pg_percentage_to_ask_about_pending_cars: "20"
+pg_max_retries_on_pending_cars: "3"
+pg_exchange_amount_in_exchange_wave: "3"

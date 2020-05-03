@@ -12,7 +12,7 @@ This project is contained in docker, so if you don't have it: [Install it](https
         - POSTGRES_USERNAME=yourpgusername
         - POSTGRES_PASSWORD=yourpgpassword
 
-Create an `application.yml` file in your `config` folder.
+You'll an `application.yml` file in your `config` folder.
 
 Here you will be able to apply certain variables to the execution and set the database info needed. Setting your postgres user/pass in both files is needed for the way docker handles the postgres image in the container.
 
@@ -51,8 +51,6 @@ Take into consideration that the value `pg_car_components` and `pg_car_models` a
 Now, in this order, run:
 
     docker-compose build
-    docker-compose run web bundle install
-    docker-compose run web yarn install
     docker-compose up
 
 Here you'll need to wait until you see a message like this one:
