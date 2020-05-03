@@ -57,7 +57,9 @@ Now, in this order, run:
 
 Here you'll need to wait until you see a message like this one:
 
-
+    web_1  | * Environment: development
+    web_1  | * Listening on tcp://0.0.0.0:3000
+    web_1  | Use Ctrl-C to stop
 
 and then you can continue running these commands on a separate terminal:
 
