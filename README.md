@@ -54,18 +54,20 @@ Now, in this order, run:
     docker-compose run web bundle install
     docker-compose run web yarn install
     docker-compose up
+
+Here you'll need to wait until you see a message like this one:
+
+
+
+and then you can continue running these commands on a separate terminal:
+
     docker-compose run web rake db:create
     docker-compose run web rake db:migrate
     docker-compose run web rake db:migrate RAILS_ENV=test
-
-for installing the dependencies of the project and creating the database and tables.
-
-Then: 
-
     docker-compose run web rake db:seed
     
 
-for populating the database.
+for creating the database and tables and populating the database.
 
 
 The first time you run this project is the first time you will need to run all of these commands, then you will be good to go with just `docker-compose up` and `docker-compose down` to stop it (from a separate terminal).
