@@ -5,7 +5,13 @@ class StoreStock < Stock
     #store the order in the stock.
     def executeOrder(order)
 
-        puts "Attempting to complete order with purchaseID: #{order.id}"
+        if(order.status == "incomplete")
+            puts "Attempting to complete order with purchaseID: #{order.id}"
+        elsif(order.status == "pending")
+            puts "Attempting to retry pending order with purchaseID: #{order.id}"
+        elsif(order.status == "exchange pending")
+            puts "Attempting to exchange order with purchaseID: #{order.id}"
+        end
 
         order.orderItems.each do | item |
             handleItem(item)
@@ -60,13 +66,21 @@ class StoreStock < Stock
     def exchangeCar(order)
         order.orderItems.each do | item |
             if(item != false)
-                returnedCar = Car.find(item.engine_number)
+                if(item.engine_number)
+                    begin
+                        returnedCar = Car.where('id = ?',item.engine_number)
+                        if(returnedCar.length > 0)
+                            self.cars << returnedCar.first
+                        end
+                    rescue StandardError => e
+                        print e
+                    end
+                end
                 item.engine_number = nil
                 if(!item.save)
                     puts "An error has ocurred trying to erase the engine_number from an exchange order"
                     puts item.errors.full_messages
                 end
-                self.cars << returnedCar
             end
         end
         

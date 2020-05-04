@@ -22,8 +22,10 @@ namespace :guard_robot do
             factoryStockCars = Array.new(factoryStock.withdrawCars)
 
             puts "#{factoryStockCars.length} cars substracted from the factory stock"
-            puts "Will procede to segregate deffective cars from non deffective ones"
-
+            if(factoryStockCars.length > 0)
+                puts "Will procede to segregate deffective cars from non deffective ones"
+            end
+            
             factoryStockCars.each do | car |
                 if(car.deffects.length > 0)
                     deffectiveCars << car

@@ -10,8 +10,15 @@ class Order < ApplicationRecord
       	completed = true
       	lost = false
 
-      	self.orderItems.each do | item |
-			if(item.engine_number == nil || (item.engine_number != nil && Car.find(item.engine_number) == nil))
+		self.orderItems.each do | item |
+			if(item.engine_number != nil)
+				begin
+					carItem = Car.where('id = ?',item.engine_number)
+				rescue StandardError => e
+					print e
+				end
+			end
+			if(item.engine_number == nil || (item.engine_number != nil && carItem.length == 0))
           		completed = false
         	end
       	end
@@ -23,7 +30,6 @@ class Order < ApplicationRecord
 			puts "Order with purchaseID : #{self.id} succesfully completed"
       	else
 			if(self.status == "pending")
-				puts "Attempting to retry pending order with purchaseID: #{self.id}"
 				self.retries += 1
 
 				if(self.retries >= maxRetries)

@@ -35,6 +35,7 @@ begin
             value.each do | model |
                 carmodel = CarModel.new(car_model_name: model,year:key.to_i,price: rand(min_price..max_price),cost_price: rand(min_cost..max_cost))
                 if(!carmodel.save)
+                    puts "There was an error saving the new car model #{carmodel.year} #{carmodel.car_model_name}"
                     puts carmodel.errors.full_messages
                 else
                     puts "Succesfully created the car model #{carmodel.year} #{carmodel.car_model_name}"

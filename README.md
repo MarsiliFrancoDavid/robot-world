@@ -14,30 +14,6 @@ This project is contained in docker, so if you don't have it: [Install it](https
 
 You'll have an `application.yml` file in your `config` folder, here you will be able to apply certain variables to the execution and set the database info needed. Setting your postgres user/pass in both files is needed for the way docker handles the postgres image in the container.
 
-This is an example that you can copy and paste to the file:
-
-    #DB Info
-    PG_USERNAME: "postgres"
-    PG_PASSWORD: "1234"
-
-    #Project Info
-    START_FROM_SCRATCH: "true"
-    CAR_COMPONENTS: '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}'
-    CAR_MODELS: '{"2002":["Audi A7","Abarth Punto","Alfa Romeo Stelvio","Alpine A110"],"2010":["Aston Martin DB11","BMW X2","Borgward BX7","Bugatti Veyron 16.4"],"2020":["Cadillac CTS","Chevrolet Cruze"]}'
-    COMPONENT_DEFFECTIVE_PERCENTAGE: "2"
-    CAR_MIN_PRICE_RANGE: "2000"
-    CAR_MAX_PRICE_RANGE: "15000"
-    CAR_MIN_COSTPRICE_RANGE: "200"
-    CAR_MAX_COSTPRICE_RANGE: "500"
-    CARS_PRODUCED_PER_MIN: "10"
-    TIME_BETWEEN_BUYING_CARS: "10"
-    COMMENTED_PRODUCTION: "false"
-    SLACK_WEBHOOK: "https://hooks.slack.com/services/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"
-    PERCENTAGE_TO_ASK_ABOUT_PENDING_CARS: "20"
-    MAX_RETRIES_ON_PENDING_CARS: "3"
-    EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE: "3"
-
-
 All of the variables are harmless except for the `START_FROM_SCRATCH` one, you must be careful, if starting from scratch, to have you DB populated, otherwise the processes won't behave as expected.
 
 The variables are all expressed in integers to simplify operations and the time related ones such as `TIME_BETWEEN_BUYING_CARS` (actually the only one) is considered as minutes.
@@ -66,7 +42,7 @@ and then you can continue running these commands on a separate terminal:
     docker-compose run web rake db:seed
     
 
-for creating the database and tables and populating the database.
+for creating the database, tables and populating the database.
 
 
 The first time you run this project is the first time you will need to run all of these commands, then you will be good to go with just `docker-compose up` and `docker-compose down` to stop it (from a separate terminal).
@@ -94,13 +70,11 @@ If you want to run them in separate terminals for better discernment of the info
 
 `docker-compose run web rake exec_robot:generate_business_statistics` Will generate the data for the execs robots to be happy.
 
-All of the above tasks, except for `docker-compose run web rake db:seed` and `docker-compose run web rake exec_robot:generate_business_statistics` will run in a loop with a fixed given time so you don't have to worry about re-running them.
-
-The two reasons why I separated the tasks and didn't include them in a single one are because 1-If you run them in a single command you will have only a single console output and that can be very confusing to follow and 2-I didn't find a gem that took in consideration the period until when I wanted the task to start looping, so that produced some undesired outputs that didn't really described anything useful about the processes.
 
 If in any moment you want to access the rails console to make some tests, just type
 
     docker-compose run web rails c
+
 
 ## The Data Structure
 

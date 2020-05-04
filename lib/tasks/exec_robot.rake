@@ -16,6 +16,7 @@ namespace :exec_robot do
         pendingRevenue = 0
         pendingCars = 0
         inGuarantee = 0
+        averageOrder = 0
         
         #Based on orders completed the previous day OR created the previous day and still pending, I will need to determine
         #some variables to be able to perform calculations that will be shown in the output.
