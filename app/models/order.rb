@@ -11,6 +11,8 @@ class Order < ApplicationRecord
       	lost = false
 
 		self.orderItems.each do | item |
+			#also check for the car to still exist at the moment of the checkout, because maybe it could be
+			#deleted due to the cleanup daily task.
 			if(item.engine_number != nil)
 				begin
 					carItem = Car.where('id = ?',item.engine_number)

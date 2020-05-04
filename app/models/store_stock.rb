@@ -61,7 +61,7 @@ class StoreStock < Stock
         end
     end
 
-    #When an order wants to be changed, the car returns to this stock
+    #When an order wants to be changed, the car returns to this stock if it still exists
     #and the withdraw operation starts again
     def exchangeCar(order)
         order.orderItems.each do | item |
