@@ -64,10 +64,10 @@ namespace :robot_builder do
     task cleanup: [:environment] do
         #everyday, the orders that are completed, older than yesterday and still in guarantee will now
         #not, so the exchange operation will be invalid
-        completedOrders = Array.new(Order.all).select { | order | order.inGuarantee && order.status == "complete" }
+        completedOrders = Array.new(Order.all).select { | order | order.in_guarantee && order.status == "complete" }
         completedOrders.each do | order |
-            if(order.completedDate < Time.zone.yesterday)
-                order.inGuarantee = false
+            if(order.completed_date < Time.zone.yesterday)
+                order.in_guarantee = false
                 begin
                     if(!order.save)
                         puts "An error has ocurred saving orders after modifying its guarantee attribute in the cleanup"

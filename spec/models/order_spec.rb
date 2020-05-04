@@ -14,7 +14,7 @@ RSpec.describe Order do
 
     it "shouldn't be destroyed if it has items associated to it" do
         order = Order.create
-        item = OrderItem.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500,order_id:order.id)
+        item = OrderItem.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:order.id)
         order.orderItems << item
 
         expect { order.destroy }.to raise_error ActiveRecord::InvalidForeignKey

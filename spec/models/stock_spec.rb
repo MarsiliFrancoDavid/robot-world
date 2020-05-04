@@ -20,7 +20,7 @@ RSpec.describe Stock do
     it "shouldn't be destroyed if it has cars or orders referentiating to it" do
         stock = Stock.create(name: "Factory Stock", type: "Stock")
         order = Order.create
-        carModel = CarModel.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500)
+        carModel = CarModel.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
@@ -47,7 +47,7 @@ RSpec.describe Stock do
 
     it "should associate cars properly" do
         stock = Stock.create(name: "Factory Stock", type: "Stock")
-        carModel = CarModel.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500)
+        carModel = CarModel.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
@@ -67,7 +67,7 @@ RSpec.describe Stock do
 
     it "should disassociate cars properly" do
         stock = Stock.create(name: "Factory Stock", type: "Stock")
-        carModel = CarModel.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500)
+        carModel = CarModel.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
@@ -88,7 +88,7 @@ RSpec.describe Stock do
 
     it "should return the model stock amount" do
         stock = Stock.create(name: "Factory Stock", type: "Stock")
-        carModel = CarModel.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500)
+        carModel = CarModel.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
@@ -103,6 +103,6 @@ RSpec.describe Stock do
 
         stock.addCars(carArray)
 
-        expect(stock.consultCarsStockByModelName(car.car_model.modelName,car.car_model.year)).to eq(1)
+        expect(stock.consultCarsStockByModelName(car.car_model.model_name,car.car_model.year)).to eq(1)
     end
 end

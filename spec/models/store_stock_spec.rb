@@ -6,9 +6,9 @@ RSpec.describe StoreStock do
     it "should declare pending order or exchange order as lost sale or lost exchange" do
         stock = StoreStock.create(name: "Store Stock", type: "StoreStock")
         pendingOrder = Order.create(status: "pending")
-        item = OrderItem.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500,order_id:pendingOrder.id)
+        item = OrderItem.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:pendingOrder.id)
         exchangePendingOrder = Order.create(status: "exchange pending")
-        item2 = OrderItem.create(modelName: "Ford Ka",year: 2002,price: 25000,costprice: 1000,order_id:exchangePendingOrder.id)
+        item2 = OrderItem.create(model_name: "Ford Ka",year: 2002,price: 25000,cost_price: 1000,order_id:exchangePendingOrder.id)
 
         stock.acceptCarSaleLost(pendingOrder)
         stock.acceptCarSaleLost(exchangePendingOrder)
@@ -22,7 +22,7 @@ RSpec.describe StoreStock do
 
 
         #these cars will be returned to the stock
-        carModel = CarModel.create(modelName: "Toyota Corolla",year: 2000,price: 30000,costprice: 7600)
+        carModel = CarModel.create(model_name: "Toyota Corolla",year: 2000,price: 30000,cost_price: 7600)
         returnedCar = Car.new
         components.each do | key , value |
             value.to_i.times do
@@ -44,14 +44,14 @@ RSpec.describe StoreStock do
 
         #after returning the previous car, it will ask for a 1980 Ford Taunus model
         willExchangeOrder = Order.create
-        item1 = OrderItem.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500,order_id:willExchangeOrder.id,engineNumber:returnedCar.id)
+        item1 = OrderItem.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:willExchangeOrder.id,engine_number:returnedCar.id)
 
         #after returning the previous car, it will ask for a 1980 Ford Taunus model
         wontExchangeOrder = Order.create
-        item2 = OrderItem.create(modelName: "Chevrolet Cruze",year: 2010,price: 27000,costprice: 3200,order_id:wontExchangeOrder.id, engineNumber:returnedCar2.id)
+        item2 = OrderItem.create(model_name: "Chevrolet Cruze",year: 2010,price: 27000,cost_price: 3200,order_id:wontExchangeOrder.id, engine_number:returnedCar2.id)
 
         #it will be in stock
-        carModel2 = CarModel.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500)
+        carModel2 = CarModel.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         carInStock = Car.new
         components.each do | key , value |
             value.to_i.times do
@@ -78,12 +78,12 @@ RSpec.describe StoreStock do
     it "should withdraw a single car based on an order if it is in stock or return false if it isn't" do
         stock = StoreStock.create(name: "Store Stock", type: "StoreStock")
         order = Order.create
-        item = OrderItem.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500,order_id:order.id)
+        item = OrderItem.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:order.id)
         order.orderItems << item
         orderWithNoStock = Order.create
-        item2 = OrderItem.create(modelName: "Fiat Punto",year: 2005,price: 30000,costprice: 2500,order_id:orderWithNoStock.id)
+        item2 = OrderItem.create(model_name: "Fiat Punto",year: 2005,price: 30000,cost_price: 2500,order_id:orderWithNoStock.id)
 
-        carModel = CarModel.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500)
+        carModel = CarModel.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do

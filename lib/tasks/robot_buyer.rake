@@ -18,7 +18,7 @@ namespace :robot_buyer do
                 begin
                     model = carModels.sample
                     order = Order.create
-                    item = OrderItem.create(modelName:model.modelName,year:model.year,price:model.price,costprice:model.costprice,order_id: order.id)
+                    item = OrderItem.create(model_name:model.model_name,year:model.year,price:model.price,cost_price:model.cost_price,order_id: order.id)
                     order.orderItems << item
 
                     possibleCars = storeStock.executeOrder(order)
@@ -82,7 +82,7 @@ namespace :robot_buyer do
 
     task exchange_cars: [:environment] do
         exchangeAmountInWave = (ENV["EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE"] == nil ? 3 : ENV["EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE"].to_i)
-        completedOrders = Array.new(Order.all).select { | order | order.status == "complete" && order.inGuarantee}
+        completedOrders = Array.new(Order.all).select { | order | order.status == "complete" && order.in_guarantee}
         exchangePendingOrders = Array.new(Order.all).select { | order | order.status == "exchange pending"}
         carModels = CarModel.all
         storeStock = StoreStock.find_by name: "Store Stock"
@@ -98,14 +98,14 @@ namespace :robot_buyer do
                 exchangeOrder.status = "exchange pending"
 
                 exchangeOrder.orderItems.each do | item |
-                    differentCarModels = Array.new(carModels.select{ | model | model.modelName != item.modelName && model.year != item.year })
+                    differentCarModels = Array.new(carModels.select{ | model | model.model_name != item.model_name && model.year != item.year })
 
                     differentModel = differentCarModels.sample
 
-                    item.modelName = differentModel.modelName
+                    item.model_name = differentModel.model_name
                     item.year = differentModel.year
                     item.price = differentModel.price
-                    item.costprice = differentModel.costprice
+                    item.cost_price = differentModel.cost_price
 
                     begin
                         if(!item.save)
@@ -118,7 +118,7 @@ namespace :robot_buyer do
                 end
 
                 exchangeOrder.stock_id = nil
-                exchangeOrder.completedDate = nil
+                exchangeOrder.completed_date = nil
                 exchangeOrder.retries = 0
 
                 begin

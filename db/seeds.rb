@@ -33,11 +33,11 @@ begin
     carModels.each do | key , value |
         if(value.length > 0)
             value.each do | model |
-                carmodel = CarModel.new(modelName: model,year:key.to_i,price: rand(min_price..max_price),costprice: rand(min_cost..max_cost))
+                carmodel = CarModel.new(model_name: model,year:key.to_i,price: rand(min_price..max_price),cost_price: rand(min_cost..max_cost))
                 if(!carmodel.save)
                     puts carmodel.errors.full_messages
                 else
-                    puts "Succesfully created the car model #{carmodel.year} #{carmodel.modelName}"
+                    puts "Succesfully created the car model #{carmodel.year} #{carmodel.model_name}"
                 end
             end
         end

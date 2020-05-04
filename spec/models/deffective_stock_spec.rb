@@ -5,7 +5,7 @@ RSpec.describe DeffectiveStock do
 
     it "should return the amount of non deffective pieces recovered and destroy the car that had them as well as the defective component/s" do
         stock = DeffectiveStock.create(name: "Deffective Stock", type: "DeffectiveStock")
-        carModel = CarModel.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500)
+        carModel = CarModel.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do

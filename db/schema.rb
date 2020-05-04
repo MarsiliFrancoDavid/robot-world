@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_04_001809) do
+ActiveRecord::Schema.define(version: 2020_05_04_003637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "car_models", force: :cascade do |t|
-    t.string "modelName"
+    t.string "model_name"
     t.integer "year"
     t.integer "price"
-    t.integer "costprice"
+    t.integer "cost_price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -56,11 +56,11 @@ ActiveRecord::Schema.define(version: 2020_05_04_001809) do
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.string "modelName"
+    t.string "model_name"
     t.integer "year"
     t.integer "price"
-    t.integer "costprice"
-    t.integer "engineNumber"
+    t.integer "cost_price"
+    t.integer "engine_number"
     t.bigint "order_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -71,8 +71,8 @@ ActiveRecord::Schema.define(version: 2020_05_04_001809) do
     t.string "status", default: "incomplete"
     t.bigint "stock_id"
     t.integer "retries", default: 0
-    t.date "completedDate"
-    t.boolean "inGuarantee", default: true
+    t.date "completed_date"
+    t.boolean "in_guarantee", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["stock_id"], name: "index_orders_on_stock_id"

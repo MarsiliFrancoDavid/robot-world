@@ -16,7 +16,7 @@ RSpec.describe CarFactory do
 
     it "should send down the line a car until it's completed" do
         carFactory = CarFactory.new
-        carModel = CarModel.create(modelName: "Ford Taunus",year: 1980,price: 10000,costprice: 500)
+        carModel = CarModel.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do

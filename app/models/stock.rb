@@ -38,11 +38,11 @@ class Stock < ApplicationRecord
         carsCopy
     end
 
-    def consultCarsStockByModelName(modelName , year)
+    def consultCarsStockByModelName(model_name , year)
         result = 0
 
         self.cars.each do | car |
-            if(car.car_model.modelName == modelName && car.car_model.year == year)
+            if(car.car_model.model_name == model_name && car.car_model.year == year)
                 result += 1
             end
         end

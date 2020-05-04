@@ -20,24 +20,24 @@ namespace :exec_robot do
         #Based on orders completed the previous day OR created the previous day and still pending, I will need to determine
         #some variables to be able to perform calculations that will be shown in the output.
         orders.each do | order |
-            if(order.inGuarantee)
+            if(order.in_guarantee)
                 inGuarantee += 1
             end
 
-            if(order.completedDate == Time.zone.yesterday || (order.status == "pending" && order.created_at.to_date == Time.zone.yesterday))
+            if(order.completed_date == Time.zone.yesterday || (order.status == "pending" && order.created_at.to_date == Time.zone.yesterday))
                 order.orderItems.each do | item |
-                    totalPrices += (item.price - item.costprice)
+                    totalPrices += (item.price - item.cost_price)
                     totalCars += 1
-                    if(item.engineNumber != nil)
+                    if(item.engine_number != nil)
                         carsSold += 1
-                        dailyRevenue += (item.price - item.costprice)
-                        dailyCost += item.costprice
+                        dailyRevenue += (item.price - item.cost_price)
+                        dailyCost += item.cost_price
                     elsif
                         if(item.order.status != "pending")
                             yesterdayLostSales += 1
-                            yesterdayRevenueLost += (item.price - item.costprice)
+                            yesterdayRevenueLost += (item.price - item.cost_price)
                         else
-                            pendingRevenue += (item.price - item.costprice)
+                            pendingRevenue += (item.price - item.cost_price)
                             pendingCars += 1
                         end
                     end

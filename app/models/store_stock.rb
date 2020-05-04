@@ -2,7 +2,7 @@ require_relative "stock"
 
 class StoreStock < Stock
     #Takes an order and handles each item individually. It all items were satisfied, it change the order status to complete and gives
-    #it a completedDate. If not, it"s set as pending and the robot buyer will try later to fulfill the order.
+    #it a completed_date. If not, it"s set as pending and the robot buyer will try later to fulfill the order.
     def executeOrder(order)
         result = []
 
@@ -12,7 +12,7 @@ class StoreStock < Stock
 
         if (!result.include?(false))
             order.status = "complete"
-            order.completedDate = Time.zone.today
+            order.completed_date = Time.zone.today
             self.orders << order
         end
 
@@ -35,12 +35,12 @@ class StoreStock < Stock
 
         index = 0
 
-        puts "Attempting to buy a #{item.year} #{item.modelName}, purchaseID : #{item.order.id}"
+        puts "Attempting to buy a #{item.year} #{item.model_name}, purchaseID : #{item.order.id}"
 
         while (index < self.cars.length && result == false) do
-            if(self.cars[index].car_model.modelName == item.modelName && self.cars[index].car_model.year == item.year)
+            if(self.cars[index].car_model.model_name == item.model_name && self.cars[index].car_model.year == item.year)
                 result = index
-                item.engineNumber = self.cars[index].id
+                item.engine_number = self.cars[index].id
                 begin
                     if(!item.save)
                         puts "An error ocurred saving item with ID: #{item.id}"
@@ -53,7 +53,7 @@ class StoreStock < Stock
         end
 
         if(result == false)
-            puts "We didn't find stock for item with ID #{item.id} for model #{item.year} #{item.modelName} of order with purchaseID: #{item.order.id}"
+            puts "We didn't find stock for item with ID #{item.id} for model #{item.year} #{item.model_name} of order with purchaseID: #{item.order.id}"
         else
             puts "Stock encounterd for item with ID #{item.id}"
             result = self.cars[result]
@@ -72,7 +72,7 @@ class StoreStock < Stock
             order.status = "lost exchange"
         end
 
-        order.completedDate = Time.zone.today
+        order.completed_date = Time.zone.today
 
         begin
             if(!order.save)
@@ -99,7 +99,7 @@ class StoreStock < Stock
     def exchangeCar(order)
         order.orderItems.each do | item |
             if(item != false)
-                returnedCar = Car.find(item.engineNumber)
+                returnedCar = Car.find(item.engine_number)
                 self.cars << returnedCar
             end
         end
