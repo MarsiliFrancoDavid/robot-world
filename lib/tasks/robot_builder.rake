@@ -64,7 +64,8 @@ namespace :robot_builder do
     task cleanup: [:environment] do
         #everyday, the orders that are completed, older than yesterday and still in guarantee will now
         #not, so the exchange operation will be invalid
-        completedOrders = Array.new(Order.all).select { | order | order.in_guarantee && order.status == "complete" }
+        completedOrders = Order.where('in_guarantee = ? AND status = ?',true,'complete')
+
         completedOrders.each do | order |
             if(order.completed_date < Time.zone.yesterday)
                 order.in_guarantee = false

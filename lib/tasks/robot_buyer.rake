@@ -12,7 +12,7 @@ namespace :robot_buyer do
 
             #each time I execute the loop, I need to refresh this array because the previous orders that were in guarantee still
             #now may not be.
-            pendingOrders = Array.new(Order.all).select { | order | order.status == "pending" && order.retries < maxRetries }
+            pendingOrders = Order.where('status = ? AND retries < ? AND in_guarantee = ?','pending',maxRetries,true)
 
             rand(0..10).times do
                 begin
@@ -82,8 +82,8 @@ namespace :robot_buyer do
 
     task exchange_cars: [:environment] do
         exchangeAmountInWave = (ENV["EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE"] == nil ? 3 : ENV["EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE"].to_i)
-        completedOrders = Array.new(Order.all).select { | order | order.status == "complete" && order.in_guarantee}
-        exchangePendingOrders = Array.new(Order.all).select { | order | order.status == "exchange pending"}
+        completedOrders = Order.where('in_guarantee = ? AND status = ?',true,'complete')
+        exchangePendingOrders = Order.where('status = ?','exchange pending')
         carModels = CarModel.all
         storeStock = StoreStock.find_by name: "Store Stock"
         exchangedCars = Array.new
