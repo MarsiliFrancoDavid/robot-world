@@ -11,7 +11,7 @@ class Order < ApplicationRecord
       	lost = false
 
       	self.orderItems.each do | item |
-        	if(item.engine_number == nil || (item.engine_number != nil && Car.find(item.engine_number) == nil))
+			if(item.engine_number == nil || (item.engine_number != nil && Car.find(item.engine_number) == nil))
           		completed = false
         	end
       	end

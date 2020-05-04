@@ -39,14 +39,6 @@ class Stock < ApplicationRecord
     end
 
     def consultCarsStockByModelName(car_model_name , year)
-        result = 0
-
-        self.cars.each do | car |
-            if(car.car_model.car_model_name == car_model_name && car.car_model.year == year)
-                result += 1
-            end
-        end
-
-        result
+        result = (self.cars.joins(:car_model).where('car_models.car_model_name' => car_model_name , 'car_models.year' => year)).length
     end
 end

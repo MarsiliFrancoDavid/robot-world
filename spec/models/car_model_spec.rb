@@ -16,23 +16,23 @@ RSpec.describe CarModel do
         carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         carModel2 = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
 
-        expect(carModel2.errors.full_messages.first).to eq("car_model_name has already been taken")
+        expect(carModel2.errors.full_messages.first).to eq("Car model name has already been taken")
     end
 
     it "should not be created if car_model_name, year, price and cost_price attributes aren't present" do
         carModel = CarModel.create
 
-        expect(carModel.errors.full_messages).to match_array(["car_model_name can't be blank", "Year can't be blank", "Year is not a number", "Price can't be blank", "Price is not a number", "cost_price can't be blank", "cost_price is not a number"])
+        expect(carModel.errors.full_messages).to match_array(["Car model name can't be blank", "Cost price can't be blank", "Cost price is not a number", "Price can't be blank", "Price is not a number", "Year can't be blank", "Year is not a number"])
     end
 
     it "should not be created if price and cost_price aren't greater than 0" do
         carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 0,cost_price: -10)
 
-        expect(carModel.errors.full_messages).to match_array(["Price must be greater than 0", "cost_price must be greater than 0"])
+        expect(carModel.errors.full_messages).to match_array(["Cost price must be greater than 0", "Price must be greater than 0"])
     end
 
     it "should not be created if the year is older than the current or less than 0" do
-        carModel = CarModel.create(: "Ford Taunus",year: Time.now.year + 1,price: 10000,cost_price: 500)
+        carModel = CarModel.create(car_model_name: "Ford Taunus",year: Time.now.year + 1,price: 10000,cost_price: 500)
         carModel2 = CarModel.create(car_model_name: "Ford Taunus",year: 0,price: 10000,cost_price: 500)
 
         expect(carModel.errors.full_messages.first).to eq("Year must be less than or equal to 2020")

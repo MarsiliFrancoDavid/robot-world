@@ -103,6 +103,6 @@ RSpec.describe Stock do
 
         stock.addCars(carArray)
 
-        expect(stock.consultCarsStockByModelName(car.car_model.model_name,car.car_model.year)).to eq(1)
+        expect(stock.consultCarsStockByModelName(car.car_model.car_model_name,car.car_model.year)).to eq(1)
     end
 end

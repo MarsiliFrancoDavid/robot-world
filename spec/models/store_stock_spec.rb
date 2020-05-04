@@ -3,20 +3,6 @@ require "rails_helper"
 RSpec.describe StoreStock do
     components = JSON.parse((ENV["CAR_COMPONENTS"] == nil ? '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}' : ENV["CAR_COMPONENTS"]))
 
-    it "should declare pending order or exchange order as lost sale or lost exchange" do
-        stock = StoreStock.create(name: "Store Stock", type: "StoreStock")
-        pendingOrder = Order.create(status: "pending")
-        item = OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:pendingOrder.id)
-        exchangePendingOrder = Order.create(status: "exchange pending")
-        item2 = OrderItem.create(car_model_name: "Ford Ka",year: 2002,price: 25000,cost_price: 1000,order_id:exchangePendingOrder.id)
-
-        stock.acceptCarSaleLost(pendingOrder)
-        stock.acceptCarSaleLost(exchangePendingOrder)
-
-        expect(stock.orders.find{| order | order.id == pendingOrder.id}.status).to eq("lost sale") 
-        expect(stock.orders.find{| order | order.id == exchangePendingOrder.id}.status).to eq("lost exchange")
-    end
-
     it "should be able to handle an order exchange from the robot buyer" do
         stock = StoreStock.create(name: "Store Stock", type: "StoreStock")
 
@@ -43,11 +29,11 @@ RSpec.describe StoreStock do
 
 
         #after returning the previous car, it will ask for a 1980 Ford Taunus model
-        willExchangeOrder = Order.create
+        willExchangeOrder = Order.create(status: "exchange pending")
         item1 = OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:willExchangeOrder.id,engine_number:returnedCar.id)
 
-        #after returning the previous car, it will ask for a 1980 Ford Taunus model
-        wontExchangeOrder = Order.create
+        #after returning the previous car, it will ask for a 2010 Chevrolet Cruze model
+        wontExchangeOrder = Order.create(status: "exchange pending")
         item2 = OrderItem.create(car_model_name: "Chevrolet Cruze",year: 2010,price: 27000,cost_price: 3200,order_id:wontExchangeOrder.id, engine_number:returnedCar2.id)
 
         #it will be in stock
@@ -66,16 +52,16 @@ RSpec.describe StoreStock do
 
         stock.addCars(carArray)
 
-        willExchangeResult = stock.exchangeCar(willExchangeOrder)
-        wontExchangeResult = stock.exchangeCar(wontExchangeOrder)
+        willExchangeOrder = stock.exchangeCar(willExchangeOrder)
+        wontExchangeOrder = stock.exchangeCar(wontExchangeOrder)
 
         expect(stock.cars.find{| car | car.id == returnedCar.id}.id).to eq(returnedCar.id)
         expect(stock.cars.find{| car | car.id == returnedCar2.id}.id).to eq(returnedCar2.id)
-        expect(willExchangeResult.first.id).to eq(carInStock.id)
-        expect(wontExchangeResult.first).to be(false)
+        expect(willExchangeOrder.status).to eq("complete")
+        expect(wontExchangeOrder.status).to eq("lost exchange")
     end
 
-    it "should withdraw a single car based on an order if it is in stock or return false if it isn't" do
+    it "should return an order with pending status if there's no car stock or an order with a complete status if there was, and add the completed order to the stock orders" do
         stock = StoreStock.create(name: "Store Stock", type: "StoreStock")
         order = Order.create
         item = OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:order.id)
@@ -98,10 +84,11 @@ RSpec.describe StoreStock do
 
         stock.addCars(carArray)
 
-        withdrawnCar = stock.executeOrder(order)
-        noStock = stock.executeOrder(orderWithNoStock)
+        order = stock.executeOrder(order)
+        orderWithNoStock = stock.executeOrder(orderWithNoStock)
 
-        expect(withdrawnCar.first.id).to eq(car.id)
-        expect(noStock.first).to be(false)
+        expect(order.status).to eq("complete")
+        expect(stock.orders.first.id).to eq(order.id)
+        expect(orderWithNoStock.status).to eq("pending")
     end
 end
