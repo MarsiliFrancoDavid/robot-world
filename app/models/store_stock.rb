@@ -1,19 +1,22 @@
 require_relative "stock"
 
 class StoreStock < Stock
-    #Takes an order and handles each item individually. It all items were satisfied, it change the order status to complete and gives
-    #it a completed_date. If not, it"s set as pending and the robot buyer will try later to fulfill the order.
+    #Takes an order and handles each item individually. Then checkouts the order and based on the checkout result will or won't
+    #store the order in the stock.
     def executeOrder(order)
-        result = []
+
+        puts "Attempting to complete order with purchaseID: #{order.id}"
 
         order.orderItems.each do | item |
-            result << handleItem(item)
+            handleItem(item)
         end
 
-        if (!result.include?(false))
-            order.status = "complete"
-            order.completed_date = Time.zone.today
-            self.orders << order
+        order = order.checkout
+
+
+        if(order.status == "complete" || order.status == "lost sale" || order.status == "lost exchange")
+            order.stock_id = self.id
+            order.save
         end
 
         begin
@@ -25,7 +28,7 @@ class StoreStock < Stock
             print e
         end
 
-        result
+        order
     end
 
 
@@ -49,40 +52,6 @@ class StoreStock < Stock
             end
         else
             puts "We didn't find stock for item with ID #{item.id} for model #{item.year} #{item.car_model_name} of order with purchaseID: #{item.order.id}"
-            result = false
-        end
-
-        result
-    end
-
-    #When an order has been retried a maximum amount of times or the exchanged order
-    #doesn't find the new model wanted available, the sale is considered as lost
-    def acceptCarSaleLost(order)
-        if(order.status == "pending")
-            order.status = "lost sale"
-        elsif(order.status == "exchange pending")
-            order.status = "lost exchange"
-        end
-
-        order.completed_date = Time.zone.today
-
-        begin
-            if(!order.save)
-                puts "An error ocurred saving order in the acceptCarSaleLost function with purchaseID: #{order.id}"
-            end
-        rescue StandardError => e
-            print e
-        end
-
-        self.orders << order
-
-        begin
-            if(!self.save)
-                puts "An error has ocurred accepting a lost car sale in the #{self.name}"
-                puts self.errors.full_messages
-            end
-        rescue StandardError => e
-            print e
         end
     end
 
@@ -92,10 +61,15 @@ class StoreStock < Stock
         order.orderItems.each do | item |
             if(item != false)
                 returnedCar = Car.find(item.engine_number)
+                item.engine_number = nil
+                if(!item.save)
+                    puts "An error has ocurred trying to erase the engine_number from an exchange order"
+                    puts item.errors.full_messages
+                end
                 self.cars << returnedCar
             end
         end
         
-        return result = self.executeOrder(order)
+        return self.executeOrder(order)
     end
 end
