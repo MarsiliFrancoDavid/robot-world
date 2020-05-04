@@ -2,8 +2,6 @@ namespace :robot_buyer do
     desc "Robot buyer tasks"
 
     task buy_cars: [:environment] do
-        sleepTime = (ENV["TIME_BETWEEN_BUYING_CARS"] == nil ? 10 : ENV["TIME_BETWEEN_BUYING_CARS"].to_i)
-
         carModels = CarModel.all
         storeStock = StoreStock.find_by name: "Store Stock"
         if(carModels.length > 0 && storeStock != nil)
