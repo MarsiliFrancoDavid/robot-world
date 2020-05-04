@@ -31,33 +31,25 @@ class StoreStock < Stock
 
     #take an item of an order and tries to get a car in exchange, if no stock is encountered, return false
     def handleItem(item)
-        result = false
-
-        index = 0
-
         puts "Attempting to buy a #{item.year} #{item.car_model_name}, purchaseID : #{item.order.id}"
 
-        while (index < self.cars.length && result == false) do
-            if(self.cars[index].car_model.car_model_name == item.car_model_name && self.cars[index].car_model.year == item.year)
-                result = index
-                item.engine_number = self.cars[index].id
-                begin
-                    if(!item.save)
-                        puts "An error ocurred saving item with ID: #{item.id}"
-                    end
-                rescue StandardError => e
-                    print e
-                end
-            end
-            index += 1
-        end
+        result = self.cars.joins(:car_model).where('car_models.car_model_name' => item.car_model_name , 'car_models.year' => item.year).limit(1)
 
-        if(result == false)
-            puts "We didn't find stock for item with ID #{item.id} for model #{item.year} #{item.car_model_name} of order with purchaseID: #{item.order.id}"
-        else
+        if(result.length > 0)
+            result = result.first
             puts "Stock encounterd for item with ID #{item.id}"
-            result = self.cars[result]
+            item.engine_number = result.id
             self.cars.delete(result) 
+            begin
+                if(!item.save)
+                    puts "An error ocurred saving item with ID: #{item.id}"
+                end
+            rescue StandardError => e
+                print e
+            end
+        else
+            puts "We didn't find stock for item with ID #{item.id} for model #{item.year} #{item.car_model_name} of order with purchaseID: #{item.order.id}"
+            result = false
         end
 
         result
