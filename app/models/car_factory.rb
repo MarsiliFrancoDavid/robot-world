@@ -5,7 +5,7 @@ require_relative "application_record"
 #the transition of the cars through each step until it"s
 #considered finished.
 class CarFactory
-    attr_accessor :assembly_lines,:completed_car
+    attr_accessor :assembly_lines,:completed_cars
     
     #Each Car is identified by it"s ID as a hash key inside each production line
     def initialize()
@@ -14,7 +14,7 @@ class CarFactory
             "Electronic devices"         => {},
             "Painting and final details" => {}
         }
-        @completed_car = []
+        @completed_cars = []
     end
    
     def startProduction(car)
@@ -60,8 +60,8 @@ class CarFactory
     end
 
     def withdrawCompletedCars
-        completedCarsCopy = Array.new(@completed_car)
-        @completed_car.clear
+        completedCarsCopy = Array.new(@completed_cars)
+        @completed_cars.clear
         completedCarsCopy
     end
 
