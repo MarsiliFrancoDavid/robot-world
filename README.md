@@ -73,7 +73,11 @@ The first time you run this project is the first time you will need to run all o
 
 ## Now into the fun part!
 
-Here are the commands representing the different processes of the project, run them in separate terminals for better discernment of the information:
+I used [Crono](https://github.com/plashchynski/crono) for handling the tasks schedules, and to run them all you can use:
+
+    docker-compose run web bundle exec crono
+
+If you want to run them in separate terminals for better discernment of the information, here are the commands representing the different processes of the project:
 
 
 `docker-compose run web rake db:seed` This will, if wanted, erase all records an populate the DB with the ones needed to begin or just create new car models, depending on the variable `START_FROM_SCRATCH` from the `application.yml` config file.

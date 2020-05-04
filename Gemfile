@@ -56,3 +56,5 @@ gem "hirb"
 gem "figaro"
 
 gem "slack-notifier"
+
+gem "crono"
