@@ -6,8 +6,8 @@ RSpec.describe CarFactory do
     it "should have three production lines and a completed cars array existing when created" do
         carFactory = CarFactory.new
 
-        expect(carFactory.completedCars).to match_array([])
-        expect(carFactory.assemblyLines).to include(
+        expect(carFactory.completed_cars).to match_array([])
+        expect(carFactory.assembly_lines).to include(
             "Basic Structure"            => {},
             "Electronic devices"         => {},
             "Painting and final details" => {}

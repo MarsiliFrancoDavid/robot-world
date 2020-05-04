@@ -5,16 +5,16 @@ require_relative "application_record"
 #the transition of the cars through each step until it"s
 #considered finished.
 class CarFactory
-    attr_accessor :assemblyLines,:completedCars
+    attr_accessor :assembly_lines,:completed_car
     
     #Each Car is identified by it"s ID as a hash key inside each production line
     def initialize()
-        @assemblyLines = { 
+        @assembly_lines = { 
             "Basic Structure"            => {},
             "Electronic devices"         => {},
             "Painting and final details" => {}
         }
-        @completedCars = []
+        @completed_car = []
     end
    
     def startProduction(car)
@@ -43,7 +43,7 @@ class CarFactory
         end
 
         unless(previousStage.downcase === "uninitialized")
-            @assemblyLines[previousStage].delete(car.id.to_s)
+            @assembly_lines[previousStage].delete(car.id.to_s)
         end
 
         if(car.completed)
@@ -52,16 +52,16 @@ class CarFactory
                     car.deffects << component.name
                 end
             end
-            @completedCars << car
+            @completed_cars << car
         else
-            @assemblyLines[car.stage][car.id.to_s] = car
+            @assembly_lines[car.stage][car.id.to_s] = car
         end
         return car
     end
 
     def withdrawCompletedCars
-        completedCarsCopy = Array.new(@completedCars)
-        @completedCars.clear
+        completedCarsCopy = Array.new(@completed_car)
+        @completed_car.clear
         completedCarsCopy
     end
 
