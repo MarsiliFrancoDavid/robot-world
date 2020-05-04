@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_04_003637) do
+ActiveRecord::Schema.define(version: 2020_05_04_010011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "car_models", force: :cascade do |t|
-    t.string "model_name"
+    t.string "car_model_name"
     t.integer "year"
     t.integer "price"
     t.integer "cost_price"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_003637) do
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.string "model_name"
+    t.string "car_model_name"
     t.integer "year"
     t.integer "price"
     t.integer "cost_price"

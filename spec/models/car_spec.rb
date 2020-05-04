@@ -4,7 +4,7 @@ RSpec.describe Car do
     components = JSON.parse((ENV["CAR_COMPONENTS"] == nil ? '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}' : ENV["CAR_COMPONENTS"]))
 
     it "should be created with default values,an associated car model and its components validated" do
-        carModel = CarModel.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
@@ -28,7 +28,7 @@ RSpec.describe Car do
     end
 
     it "shouldn't be destroyed if there's components still associated to the car" do
-        carModel = CarModel.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
@@ -45,7 +45,7 @@ RSpec.describe Car do
 
     it "should be destroyed if no more components are associated to the car" do 
         comp = Component.create(name:"Wheel",deffective:false)
-        carModel = CarModel.create(model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.create
         carModel.cars << car
         car.components << comp

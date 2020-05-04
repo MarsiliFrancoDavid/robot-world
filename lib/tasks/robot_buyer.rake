@@ -18,7 +18,7 @@ namespace :robot_buyer do
                 begin
                     model = carModels.sample
                     order = Order.create
-                    item = OrderItem.create(model_name:model.model_name,year:model.year,price:model.price,cost_price:model.cost_price,order_id: order.id)
+                    item = OrderItem.create(car_model_name:model.car_model_name,year:model.year,price:model.price,cost_price:model.cost_price,order_id: order.id)
                     order.orderItems << item
 
                     possibleCars = storeStock.executeOrder(order)
@@ -98,11 +98,11 @@ namespace :robot_buyer do
                 exchangeOrder.status = "exchange pending"
 
                 exchangeOrder.orderItems.each do | item |
-                    differentCarModels = Array.new(carModels.select{ | model | model.model_name != item.model_name && model.year != item.year })
+                    differentCarModels = Array.new(carModels.select{ | model | model.car_model_name != item.car_model_name && model.year != item.year })
 
                     differentModel = differentCarModels.sample
 
-                    item.model_name = differentModel.model_name
+                    item.car_model_name = differentModel.car_model_name
                     item.year = differentModel.year
                     item.price = differentModel.price
                     item.cost_price = differentModel.cost_price

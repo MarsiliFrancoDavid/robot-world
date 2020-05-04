@@ -35,10 +35,10 @@ class StoreStock < Stock
 
         index = 0
 
-        puts "Attempting to buy a #{item.year} #{item.model_name}, purchaseID : #{item.order.id}"
+        puts "Attempting to buy a #{item.year} #{item.car_model_name}, purchaseID : #{item.order.id}"
 
         while (index < self.cars.length && result == false) do
-            if(self.cars[index].car_model.model_name == item.model_name && self.cars[index].car_model.year == item.year)
+            if(self.cars[index].car_model.car_model_name == item.car_model_name && self.cars[index].car_model.year == item.year)
                 result = index
                 item.engine_number = self.cars[index].id
                 begin
@@ -53,7 +53,7 @@ class StoreStock < Stock
         end
 
         if(result == false)
-            puts "We didn't find stock for item with ID #{item.id} for model #{item.year} #{item.model_name} of order with purchaseID: #{item.order.id}"
+            puts "We didn't find stock for item with ID #{item.id} for model #{item.year} #{item.car_model_name} of order with purchaseID: #{item.order.id}"
         else
             puts "Stock encounterd for item with ID #{item.id}"
             result = self.cars[result]
