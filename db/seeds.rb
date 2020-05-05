@@ -1,6 +1,6 @@
-startFromScratch = (ENV["START_FROM_SCRATCH"] == nil ? "false" : ENV["START_FROM_SCRATCH"].downcase)
-startFromScratch = startFromScratch == "true"
-if (startFromScratch)
+start_from_scratch = (ENV["START_FROM_SCRATCH"] == nil ? "false" : ENV["START_FROM_SCRATCH"].downcase)
+start_from_scratch = start_from_scratch == "true"
+if (start_from_scratch)
     begin
         Component.destroy_all
         Car.destroy_all
@@ -24,21 +24,21 @@ if (startFromScratch)
 end
 
 begin
-    carModels = JSON.parse(ENV["CAR_MODELS"] == nil ? '{"2002":["Audi A7","Alfa Romeo Stelvio"],"2020":["Cadillac CTS","Chevrolet Cruze"]}' : ENV["CAR_MODELS"])
+    car_models = JSON.parse(ENV["CAR_MODELS"] == nil ? '{"2002":["Audi A7","Alfa Romeo Stelvio"],"2020":["Cadillac CTS","Chevrolet Cruze"]}' : ENV["CAR_MODELS"])
     min_price = (ENV["CAR_MIN_PRICE_RANGE"] == nil ? 10000 : ENV["CAR_MIN_PRICE_RANGE"].to_i)
     max_price = (ENV["CAR_MAX_PRICE_RANGE"] == nil ? 20000 : ENV["CAR_MAX_PRICE_RANGE"].to_i)
     min_cost = (ENV["CAR_MIN_COSTPRICE_RANGE"] == nil ? 1000 : ENV["CAR_MIN_COSTPRICE_RANGE"].to_i)
     max_cost = (ENV["CAR_MAX_COSTPRICE_RANGE"] == nil ? 5000 : ENV["CAR_MAX_COSTPRICE_RANGE"].to_i)
 
-    carModels.each do | key , value |
+    car_models.each do | key , value |
         if(value.length > 0)
             value.each do | model |
-                carmodel = CarModel.new(car_model_name: model,year:key.to_i,price: rand(min_price..max_price),cost_price: rand(min_cost..max_cost))
-                if(!carmodel.save)
-                    puts "There was an error saving the new car model #{carmodel.year} #{carmodel.car_model_name}"
-                    puts carmodel.errors.full_messages
+                car_model = CarModel.new(car_model_name: model,year:key.to_i,price: rand(min_price..max_price),cost_price: rand(min_cost..max_cost))
+                if(!car_model.save)
+                    puts "There was an error saving the new car model #{car_model.year} #{car_model.car_model_name}"
+                    puts car_model.errors.full_messages
                 else
-                    puts "Succesfully created the car model #{carmodel.year} #{carmodel.car_model_name}"
+                    puts "Succesfully created the car model #{car_model.year} #{car_model.car_model_name}"
                 end
             end
         end

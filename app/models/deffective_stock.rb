@@ -6,13 +6,13 @@ require_relative "component"
 class DeffectiveStock < Stock
     #This method takes the cars with at least one deffective component, loops into them and disassociates the component
     #from the car if it isn't deffective or destroys it if it is. Then it destroys the car.
-    def turnDeffectiveCarsIntoComponents
-        componentsReturned = 0
+    def turn_deffective_cars_into_components
+        components_returned = 0
         self.cars.each do | car |
             car.components.each do | component |
                 car.components.delete(component)
                 if(!component.deffective)
-                    componentsReturned += 1
+                    components_returned += 1
                 else
                     begin
                         component.destroy
@@ -38,7 +38,7 @@ class DeffectiveStock < Stock
             print e
         end
         
-        componentsReturned
+        components_returned
     end
     
 end

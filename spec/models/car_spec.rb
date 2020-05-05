@@ -4,17 +4,17 @@ RSpec.describe Car do
     components = JSON.parse((ENV["CAR_COMPONENTS"] == nil ? '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}' : ENV["CAR_COMPONENTS"]))
 
     it "should be created with default values,an associated car model and its components validated" do
-        carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        car_model = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
                 car.components << Component.create(name:key,deffective:false)
             end
         end
-        carModel.cars << car
+        car_model.cars << car
         car.save
         
-        expect(carModel.cars.first.id).to be(car.id)
+        expect(car_model.cars.first.id).to be(car.id)
         expect(car.errors.full_messages).to match_array([])
         expect(car.stage).to eq("Uninitialized")
         expect(car.deffects).to match_array([])
@@ -28,14 +28,14 @@ RSpec.describe Car do
     end
 
     it "shouldn't be destroyed if there's components still associated to the car" do
-        carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        car_model = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
                 car.components << Component.create(name:key,deffective:false)
             end
         end
-        carModel.cars << car
+        car_model.cars << car
         car.save
 
 
@@ -45,9 +45,9 @@ RSpec.describe Car do
 
     it "should be destroyed if no more components are associated to the car" do 
         comp = Component.create(name:"Wheel",deffective:false)
-        carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        car_model = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.create
-        carModel.cars << car
+        car_model.cars << car
         car.components << comp
 
         car.components.each do | component |

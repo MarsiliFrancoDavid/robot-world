@@ -17,33 +17,33 @@ class CarFactory
         @completed_cars = []
     end
    
-    def startProduction(car)
-        verboseProd = (ENV["COMMENTED_PRODUCTION"] == nil ? "false" : ENV["COMMENTED_PRODUCTION"].downcase)
-        commentedProduction = verboseProd == "true"
+    def start_production(car)
+        verbose_prod = (ENV["COMMENTED_PRODUCTION"] == nil ? "false" : ENV["COMMENTED_PRODUCTION"].downcase)
+        commented_production = verbose_prod == "true"
         while(!car.completed)
-            if(commentedProduction)
+            if(commented_production)
                 puts "Moving car with engine number #{car.id.to_s} from #{car.stage} to the next stage"
             end
-            car = sendToNextLine(car)
+            car = send_to_next_line(car)
         end
     end
 
-    def sendToNextLine(car)
-        previousStage = car.stage
+    def send_to_next_line(car)
+        previous_stage = car.stage
 
-        if(previousStage.downcase == "uninitialized")
+        if(previous_stage.downcase == "uninitialized")
             car.stage = "Basic Structure"
-        elsif (previousStage.downcase == "basic structure")
+        elsif (previous_stage.downcase == "basic structure")
             car.stage = "Electronic devices"
-        elsif (previousStage.downcase == "electronic devices")
+        elsif (previous_stage.downcase == "electronic devices")
             car.stage = "Painting and final details"
-        elsif (previousStage.downcase == "painting and final details")
+        elsif (previous_stage.downcase == "painting and final details")
             car.stage = "completed"
             car.completed = true
         end
 
-        unless(previousStage.downcase === "uninitialized")
-            @assembly_lines[previousStage].delete(car.id.to_s)
+        unless(previous_stage.downcase === "uninitialized")
+            @assembly_lines[previous_stage].delete(car.id.to_s)
         end
 
         if(car.completed)
@@ -59,10 +59,10 @@ class CarFactory
         return car
     end
 
-    def withdrawCompletedCars
-        completedCarsCopy = Array.new(@completed_cars)
+    def withdraw_completed_cars
+        completed_cars_copy = Array.new(@completed_cars)
         @completed_cars.clear
-        completedCarsCopy
+        completed_cars_copy
     end
 
 

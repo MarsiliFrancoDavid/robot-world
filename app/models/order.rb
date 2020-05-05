@@ -6,7 +6,7 @@ class Order < ApplicationRecord
 	#evaluates if the order is completed based on if its items have an engine_number attribute defined, if not it means
 	#that there was no stock for the operation, wether it be first transaction, a pending transaction or an exchange
   	def checkout
-      	maxRetries = (ENV["MAX_RETRIES_ON_PENDING_CARS"] == nil ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
+      	max_retries = (ENV["MAX_RETRIES_ON_PENDING_CARS"] == nil ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
       	completed = true
       	lost = false
 
@@ -34,7 +34,7 @@ class Order < ApplicationRecord
 			if(self.status == "pending")
 				self.retries += 1
 
-				if(self.retries >= maxRetries)
+				if(self.retries >= max_retries)
 					self.status = "lost sale"
 					lost = true
 					puts "Order with purchaseID: #{self.id} was retried maximum amount of times and is now declared as lost"
@@ -43,7 +43,7 @@ class Order < ApplicationRecord
 				end
         	elsif(self.status == "exchange pending")
 				self.status = "lost exchange"
-				self.retries = maxRetries
+				self.retries = max_retries
 				lost = true
 				puts "Order with purchaseID: #{self.id} wasn't succesfuly exchanged and is now declared as a lost sale"
 			elsif(self.status == "incomplete")

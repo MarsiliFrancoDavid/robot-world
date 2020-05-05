@@ -11,44 +11,44 @@ namespace :guard_robot do
     #When the cars are being stored in the deffective stock, the slack alert message is sent
     #as well for each car.
     task move_cars_from_factory_to_store_stock: [:environment] do
-        noDeffectsCars = Array.new
-        deffectiveCars = Array.new
+        no_deffects_cars = Array.new
+        deffective_cars = Array.new
 
-        factoryStock = Stock.find_by name: "Factory Stock"
-        storeStock = StoreStock.find_by name: "Store Stock"
-        deffectiveStock = DeffectiveStock.find_by name: "Deffective Stock"
+        factory_stock = Stock.find_by name: "Factory Stock"
+        store_stock = StoreStock.find_by name: "Store Stock"
+        deffective_stock = DeffectiveStock.find_by name: "Deffective Stock"
 
-        if(factoryStock != nil && storeStock != nil)
-            factoryStockCars = Array.new(factoryStock.withdrawCars)
+        if(factory_stock != nil && store_stock != nil)
+            factory_stock_cars = Array.new(factory_stock.withdrawCars)
 
-            puts "#{factoryStockCars.length} cars substracted from the factory stock"
-            if(factoryStockCars.length > 0)
+            puts "#{factory_stock_cars.length} cars substracted from the factory stock"
+            if(factory_stock_cars.length > 0)
                 puts "Will procede to segregate deffective cars from non deffective ones"
             end
             
-            factoryStockCars.each do | car |
+            factory_stock_cars.each do | car |
                 if(car.deffects.length > 0)
-                    deffectiveCars << car
+                    deffective_cars << car
                 else
-                    noDeffectsCars << car
+                    no_deffects_cars << car
                 end
             end
 
 
             begin
-                unless(noDeffectsCars.length == 0)
-                    storeStock.addCars(noDeffectsCars)
-                    puts "#{noDeffectsCars.length} out of #{factoryStockCars.length} cars were found as non deffective and moved to the store stock"
+                unless(no_deffects_cars.length == 0)
+                    store_stock.addCars(no_deffects_cars)
+                    puts "#{no_deffects_cars.length} out of #{factory_stock_cars.length} cars were found as non deffective and moved to the store stock"
                 end
             rescue StandardError => e
                 print e
             end
 
             begin
-                unless(deffectiveCars.length == 0)
-                    deffectiveStock.addCars(deffectiveCars)
-                    puts "#{deffectiveCars.length} out of #{factoryStockCars.length} cars were found as deffective and moved to the deffective stock"
-                    deffectiveCars.each do | car |
+                unless(deffective_cars.length == 0)
+                    deffective_stock.addCars(deffective_cars)
+                    puts "#{deffective_cars.length} out of #{factory_stock_cars.length} cars were found as deffective and moved to the deffective stock"
+                    deffective_cars.each do | car |
                         SlackMessenger::send_message "We're sorry to inform that the car with the engine number #{car.id.to_s} was found deffective and was transported to the deffective stock :cry:"
                     end
                 end
@@ -57,9 +57,9 @@ namespace :guard_robot do
             end
 
             begin
-                retrievedComponents = deffectiveStock.turnDeffectiveCarsIntoComponents
-                unless (retrievedComponents == nil || retrievedComponents == 0)
-                    puts "The deffective cars were destroyed and we retrieved #{retrievedComponents} non deffective parts to be used in the future."
+                retrieved_components = deffective_stock.turn_deffective_cars_into_components
+                unless (retrieved_components == nil || retrieved_components == 0)
+                    puts "The deffective cars were destroyed and we retrieved #{retrieved_components} non deffective parts to be used in the future."
                 end
             rescue StandardError => e
                 print e

@@ -20,14 +20,14 @@ RSpec.describe Stock do
     it "shouldn't be destroyed if it has cars or orders referentiating to it" do
         stock = Stock.create(name: "Factory Stock", type: "Stock")
         order = Order.create
-        carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        car_model = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
                 car.components << Component.create(name:key,deffective:false)
             end
         end
-        carModel.cars << car
+        car_model.cars << car
         car.save
 
 
@@ -47,62 +47,62 @@ RSpec.describe Stock do
 
     it "should associate cars properly" do
         stock = Stock.create(name: "Factory Stock", type: "Stock")
-        carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        car_model = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
                 car.components << Component.create(name:key,deffective:false)
             end
         end
-        carArray = Array.new
-        carModel.cars << car
+        car_array = Array.new
+        car_model.cars << car
         car.save
 
-        carArray << car
+        car_array << car
 
-        stock.addCars(carArray)
+        stock.add_cars(car_array)
 
         expect(stock.cars.first.id).to eq(car.id)
     end
 
     it "should disassociate cars properly" do
         stock = Stock.create(name: "Factory Stock", type: "Stock")
-        carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        car_model = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
                 car.components << Component.create(name:key,deffective:false)
             end
         end
-        carArray = Array.new
-        carModel.cars << car
+        car_array = Array.new
+        car_model.cars << car
         car.save
 
-        carArray << car
+        car_array << car
 
-        stock.addCars(carArray)
-        returnedCarsArray = Array.new(stock.withdrawCars)
+        stock.add_cars(car_array)
+        returned_cars_array = Array.new(stock.withdraw_cars)
 
-        expect(returnedCarsArray.first.id).to eq(car.id)
+        expect(returned_cars_array.first.id).to eq(car.id)
     end
 
     it "should return the model stock amount" do
         stock = Stock.create(name: "Factory Stock", type: "Stock")
-        carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        car_model = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
                 car.components << Component.create(name:key,deffective:false)
             end
         end
-        carArray = Array.new
-        carModel.cars << car
+        car_array = Array.new
+        car_model.cars << car
         car.save
 
-        carArray << car
+        car_array << car
 
-        stock.addCars(carArray)
+        stock.add_cars(car_array)
 
-        expect(stock.consultCarsStockByModelName(car.car_model.car_model_name,car.car_model.year)).to eq(1)
+        expect(stock.consult_cars_stock_by_model_name(car.car_model.car_model_name,car.car_model.year)).to eq(1)
     end
 end

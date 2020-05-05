@@ -8,57 +8,57 @@ RSpec.describe StoreStock do
 
 
         #these cars will be returned to the stock
-        carModel = CarModel.create(car_model_name: "Toyota Corolla",year: 2000,price: 30000,cost_price: 7600)
-        returnedCar = Car.new
+        car_model = CarModel.create(car_model_name: "Toyota Corolla",year: 2000,price: 30000,cost_price: 7600)
+        returned_car = Car.new
         components.each do | key , value |
             value.to_i.times do
-                returnedCar.components << Component.create(name:key,deffective:false)
+                returned_car.components << Component.create(name:key,deffective:false)
             end
         end
-        carModel.cars << returnedCar
-        returnedCar.save
+        car_model.cars << returned_car
+        returned_car.save
 
-        returnedCar2 = Car.new
-        carModel.cars << returnedCar2
+        returned_car2 = Car.new
+        car_model.cars << returned_car2
         components.each do | key , value |
             value.to_i.times do
-                returnedCar2.components << Component.create(name:key,deffective:false)
+                returned_car2.components << Component.create(name:key,deffective:false)
             end
         end
-        returnedCar2.save
+        returned_car2.save
 
 
         #after returning the previous car, it will ask for a 1980 Ford Taunus model
-        willExchangeOrder = Order.create(status: "exchange pending")
-        item1 = OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:willExchangeOrder.id,engine_number:returnedCar.id)
+        will_exchange_order = Order.create(status: "exchange pending")
+        item1 = OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:will_exchange_order.id,engine_number:returned_car.id)
 
         #after returning the previous car, it will ask for a 2010 Chevrolet Cruze model
-        wontExchangeOrder = Order.create(status: "exchange pending")
-        item2 = OrderItem.create(car_model_name: "Chevrolet Cruze",year: 2010,price: 27000,cost_price: 3200,order_id:wontExchangeOrder.id, engine_number:returnedCar2.id)
+        wont_exchange_order = Order.create(status: "exchange pending")
+        item2 = OrderItem.create(car_model_name: "Chevrolet Cruze",year: 2010,price: 27000,cost_price: 3200,order_id:wont_exchange_order.id, engine_number:returned_car2.id)
 
         #it will be in stock
-        carModel2 = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
-        carInStock = Car.new
+        car_model2 = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        car_in_stock = Car.new
         components.each do | key , value |
             value.to_i.times do
-                carInStock.components << Component.create(name:key,deffective:false)
+                car_in_stock.components << Component.create(name:key,deffective:false)
             end
         end
-        carArray = Array.new
-        carModel2.cars << carInStock
-        carInStock.save
+        car_array = Array.new
+        car_model2.cars << car_in_stock
+        car_in_stock.save
 
-        carArray << carInStock
+        car_array << car_in_stock
 
-        stock.addCars(carArray)
+        stock.add_cars(car_array)
 
-        willExchangeOrder = stock.exchangeCar(willExchangeOrder)
-        wontExchangeOrder = stock.exchangeCar(wontExchangeOrder)
+        will_exchange_order = stock.exchange_car(will_exchange_order)
+        wont_exchange_order = stock.exchange_car(wont_exchange_order)
 
-        expect(stock.cars.find{| car | car.id == returnedCar.id}.id).to eq(returnedCar.id)
-        expect(stock.cars.find{| car | car.id == returnedCar2.id}.id).to eq(returnedCar2.id)
-        expect(willExchangeOrder.status).to eq("complete")
-        expect(wontExchangeOrder.status).to eq("lost exchange")
+        expect(stock.cars.find{| car | car.id == returned_car.id}.id).to eq(returned_car.id)
+        expect(stock.cars.find{| car | car.id == returned_car2.id}.id).to eq(returned_car2.id)
+        expect(will_exchange_order.status).to eq("complete")
+        expect(wont_exchange_order.status).to eq("lost exchange")
     end
 
     it "should return an order with pending status if there's no car stock or an order with a complete status if there was, and add the completed order to the stock orders" do
@@ -66,29 +66,29 @@ RSpec.describe StoreStock do
         order = Order.create
         item = OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:order.id)
         order.orderItems << item
-        orderWithNoStock = Order.create
-        item2 = OrderItem.create(car_model_name: "Fiat Punto",year: 2005,price: 30000,cost_price: 2500,order_id:orderWithNoStock.id)
+        order_with_no_stock = Order.create
+        item2 = OrderItem.create(car_model_name: "Fiat Punto",year: 2005,price: 30000,cost_price: 2500,order_id:order_with_no_stock.id)
 
-        carModel = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
+        car_model = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
                 car.components << Component.create(name:key,deffective:false)
             end
         end
-        carArray = Array.new
-        carModel.cars << car
+        car_array = Array.new
+        car_model.cars << car
         car.save
 
-        carArray << car
+        car_array << car
 
-        stock.addCars(carArray)
+        stock.add_cars(car_array)
 
-        order = stock.executeOrder(order)
-        orderWithNoStock = stock.executeOrder(orderWithNoStock)
+        order = stock.execute_order(order)
+        order_with_no_stock = stock.execute_order(order_with_no_stock)
 
         expect(order.status).to eq("complete")
         expect(stock.orders.first.id).to eq(order.id)
-        expect(orderWithNoStock.status).to eq("pending")
+        expect(order_with_no_stock.status).to eq("pending")
     end
 end

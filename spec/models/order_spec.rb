@@ -21,10 +21,10 @@ RSpec.describe Order do
     end
 
     it "should checkout an order status according to the order condition" do
-        maxRetries = (ENV["MAX_RETRIES_ON_PENDING_CARS"] == nil ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
+        max_retries = (ENV["MAX_RETRIES_ON_PENDING_CARS"] == nil ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
         components = JSON.parse((ENV["CAR_COMPONENTS"] == nil ? '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}' : ENV["CAR_COMPONENTS"]))
 
-        carModel = CarModel.create(car_model_name: "Ford Focus XR",year: 1980,price: 10000,cost_price: 500)
+        car_model = CarModel.create(car_model_name: "Ford Focus XR",year: 1980,price: 10000,cost_price: 500)
         car1 = Car.new
         car2 = Car.new
         car3 = Car.new
@@ -35,60 +35,60 @@ RSpec.describe Order do
                 car3.components << Component.create(name:key,deffective:false)
             end
         end
-        carModel.cars << car1
-        carModel.cars << car2
-        carModel.cars << car3
+        car_model.cars << car1
+        car_model.cars << car2
+        car_model.cars << car3
         car1.save
         car2.save
         car3.save
 
-        incompleteOrderWithEN = Order.create
-        OrderItem.create(car_model_name: "Ford Focus XR",year: 1980,price: 10000,cost_price: 500,order_id:incompleteOrderWithEN.id,engine_number: car1.id)
-        incompleteOrderWithEN = incompleteOrderWithEN.checkout
+        incomplete_order_with_en = Order.create
+        OrderItem.create(car_model_name: "Ford Focus XR",year: 1980,price: 10000,cost_price: 500,order_id:incomplete_order_with_en.id,engine_number: car1.id)
+        incomplete_order_with_en = incomplete_order_with_en.checkout
 
-        incompleteOrderNoEN = Order.create
-        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:incompleteOrderNoEN.id)
-        incompleteOrderNoEN = incompleteOrderNoEN.checkout
+        incomplete_order_no_en = Order.create
+        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:incomplete_order_no_en.id)
+        incomplete_order_no_en = incomplete_order_no_en.checkout
 
-        pendingOrderWithEN = Order.create(status: "pending")
-        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:pendingOrderWithEN.id,engine_number: car2.id)
-        pendingOrderWithEN = pendingOrderWithEN.checkout
+        pending_order_with_en = Order.create(status: "pending")
+        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:pending_order_with_en.id,engine_number: car2.id)
+        pending_order_with_en = pending_order_with_en.checkout
 
-        pendingOrderNoENNoRetries = Order.create(status: "pending")
-        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:pendingOrderNoENNoRetries.id)
-        pendingOrderNoENNoRetries = pendingOrderNoENNoRetries.checkout
+        pending_order_no_en_no_retries = Order.create(status: "pending")
+        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:pending_order_no_en_no_retries.id)
+        pending_order_no_en_no_retries = pending_order_no_en_no_retries.checkout
 
-        pendingOrderNoENMaxRetries = Order.create(status: "pending",retries: maxRetries)
-        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:pendingOrderNoENMaxRetries.id)
-        pendingOrderNoENMaxRetries = pendingOrderNoENMaxRetries.checkout
+        pending_order_no_en_max_retries = Order.create(status: "pending",retries: max_retries)
+        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:pending_order_no_en_max_retries.id)
+        pending_order_no_en_max_retries = pending_order_no_en_max_retries.checkout
 
-        exchangePendingNoEN = Order.create(status: "exchange pending")
-        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:exchangePendingNoEN.id)
-        exchangePendingNoEN = exchangePendingNoEN.checkout
+        exchange_pending_no_en = Order.create(status: "exchange pending")
+        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:exchange_pending_no_en.id)
+        exchange_pending_no_en = exchange_pending_no_en.checkout
 
-        exchangePendingWithEN = Order.create(status: "exchange pending")
-        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:exchangePendingWithEN.id,engine_number: car3.id)
-        exchangePendingWithEN = exchangePendingWithEN.checkout
+        exchange_pending_with_en = Order.create(status: "exchange pending")
+        OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:exchange_pending_with_en.id,engine_number: car3.id)
+        exchange_pending_with_en = exchange_pending_with_en.checkout
 
-        expect(incompleteOrderWithEN.status).to eq("complete")
-        expect(incompleteOrderWithEN.completed_date).to eq(Time.zone.today)
+        expect(incomplete_order_with_en.status).to eq("complete")
+        expect(incomplete_order_with_en.completed_date).to eq(Time.zone.today)
 
-        expect(incompleteOrderNoEN.status).to eq("pending")
+        expect(incomplete_order_no_en.status).to eq("pending")
 
-        expect(pendingOrderWithEN.status).to eq("complete")
-        expect(pendingOrderWithEN.completed_date).to eq(Time.zone.today)
+        expect(pending_order_with_en.status).to eq("complete")
+        expect(pending_order_with_en.completed_date).to eq(Time.zone.today)
 
-        expect(pendingOrderNoENNoRetries.status).to eq("pending")
-        expect(pendingOrderNoENNoRetries.retries).to eq(1)
+        expect(pending_order_no_en_no_retries.status).to eq("pending")
+        expect(pending_order_no_en_no_retries.retries).to eq(1)
 
-        expect(pendingOrderNoENMaxRetries.status).to eq("lost sale")
-        expect(pendingOrderNoENMaxRetries.completed_date).to eq(Time.zone.today)
+        expect(pending_order_no_en_max_retries.status).to eq("lost sale")
+        expect(pending_order_no_en_max_retries.completed_date).to eq(Time.zone.today)
 
-        expect(exchangePendingNoEN.status).to eq("lost exchange")
-        expect(exchangePendingNoEN.retries).to eq(maxRetries)
-        expect(exchangePendingNoEN.completed_date).to eq(Time.zone.today)
+        expect(exchange_pending_no_en.status).to eq("lost exchange")
+        expect(exchange_pending_no_en.retries).to eq(max_retries)
+        expect(exchange_pending_no_en.completed_date).to eq(Time.zone.today)
 
-        expect(exchangePendingWithEN.status).to eq("complete")
-        expect(exchangePendingWithEN.completed_date).to eq(Time.zone.today)
+        expect(exchange_pending_with_en.status).to eq("complete")
+        expect(exchange_pending_with_en.completed_date).to eq(Time.zone.today)
     end
 end

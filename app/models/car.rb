@@ -10,9 +10,9 @@ class Car < ApplicationRecord
       valid = true
 
       unless(components == {})
-          carComponents = Array.new(self.components)
+          car_components = Array.new(self.components)
 
-          carComponents.each do | component |
+          car_components.each do | component |
               components[component.name] -= 1
           end
       end

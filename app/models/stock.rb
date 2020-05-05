@@ -4,7 +4,7 @@ class Stock < ApplicationRecord
     validates :name , :type , presence: true
 
     #send an array of car objects and it will be saved associated to the stock
-    def addCars(cars)
+    def add_cars(cars)
         cars.each do | car |
             self.cars << car
         end
@@ -19,12 +19,12 @@ class Stock < ApplicationRecord
     end
 
     #deletes the association of each car to this stock and return all of them as an array
-    def withdrawCars
-        carsCopy = Array.new
+    def withdraw_cars
+        cars_copy = Array.new
 
         self.cars.each do | car | 
             self.cars.delete(car)
-            carsCopy << car
+            cars_copy << car
         end
 
         begin
@@ -35,10 +35,10 @@ class Stock < ApplicationRecord
         rescue StandardError => e
             print e
         end
-        carsCopy
+        cars_copy
     end
 
-    def consultCarsStockByModelName(car_model_name , year)
+    def consult_cars_stock_by_model_name(car_model_name , year)
         result = (self.cars.joins(:car_model).where('car_models.car_model_name' => car_model_name , 'car_models.year' => year)).length
     end
 end

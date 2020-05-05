@@ -3,18 +3,15 @@ require_relative "stock"
 class StoreStock < Stock
     #Takes an order and handles each item individually. Then checkouts the order and based on the checkout result will or won't
     #store the order in the stock.
-    def executeOrder(order)
+    def execute_order(order)
 
-        if(order.status == "incomplete")
-            puts "Attempting to complete order with purchaseID: #{order.id}"
-        elsif(order.status == "pending")
-            puts "Attempting to retry pending order with purchaseID: #{order.id}"
-        elsif(order.status == "exchange pending")
-            puts "Attempting to exchange order with purchaseID: #{order.id}"
-        end
+        
+        puts "Attempting to complete order with purchaseID: #{order.id}" if(order.status == "incomplete")
+        puts "Attempting to retry pending order with purchaseID: #{order.id}" if(order.status == "pending")
+        puts "Attempting to exchange order with purchaseID: #{order.id}" if(order.status == "exchange pending")
 
         order.orderItems.each do | item |
-            handleItem(item)
+            handle_item(item)
         end
 
         order = order.checkout
@@ -39,7 +36,7 @@ class StoreStock < Stock
 
 
     #take an item of an order and tries to get a car in exchange, if no stock is encountered, return false
-    def handleItem(item)
+    def handle_item(item)
         puts "Attempting to buy a #{item.year} #{item.car_model_name}, purchaseID : #{item.order.id}"
 
         result = self.cars.joins(:car_model).where('car_models.car_model_name' => item.car_model_name , 'car_models.year' => item.year).limit(1)
@@ -63,14 +60,14 @@ class StoreStock < Stock
 
     #When an order wants to be changed, the car returns to this stock if it still exists
     #and the withdraw operation starts again
-    def exchangeCar(order)
+    def exchange_car(order)
         order.orderItems.each do | item |
             if(item != false)
                 if(item.engine_number)
                     begin
-                        returnedCar = Car.where('id = ?',item.engine_number)
-                        if(returnedCar.length > 0)
-                            self.cars << returnedCar.first
+                        returned_car = Car.where('id = ?',item.engine_number)
+                        if(returned_car.length > 0)
+                            self.cars << returned_car.first
                         end
                     rescue StandardError => e
                         print e
@@ -84,6 +81,6 @@ class StoreStock < Stock
             end
         end
         
-        return self.executeOrder(order)
+        return self.execute_order(order)
     end
 end
