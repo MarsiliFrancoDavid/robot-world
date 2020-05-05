@@ -76,6 +76,8 @@ If in any moment you want to access the rails console to make some tests, just t
     docker-compose run web rails c
 
 
+All the tasks iteration time can be edited inside the `config/cronotab.rb` file.
+
 ## The Data Structure
 
 <img src='./public/robot-world-UML.png'>

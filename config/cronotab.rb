@@ -2,7 +2,7 @@ require 'rake'
 
 Rails.app_class.load_tasks
 
-carBuySleepTime = (ENV["TIME_BETWEEN_BUYING_CARS"] == nil ? 10 : ENV["TIME_BETWEEN_BUYING_CARS"].to_i)
+carBuySleepTime = (ENV["TIME_BETWEEN_BUYING_CARS"].nil? ? 10 : ENV["TIME_BETWEEN_BUYING_CARS"].to_i)
 
 class StartProduction
   def perform
@@ -43,9 +43,9 @@ end
 
 
 
-Crono.perform(StartProduction).every 10.seconds
-Crono.perform(MoveCarsFromFactoryToStoreStock).every 20.seconds
-Crono.perform(BuyCars).every 30.seconds
-Crono.perform(ExchangeCars).every 1.minute
+Crono.perform(StartProduction).every 1.minute
+Crono.perform(MoveCarsFromFactoryToStoreStock).every 30.minutes
+Crono.perform(BuyCars).every carBuySleepTime.minutes
+Crono.perform(ExchangeCars).every 1.hour
 Crono.perform(GenerateStatistics).every 1.day
 Crono.perform(Cleanup).every 1.day
