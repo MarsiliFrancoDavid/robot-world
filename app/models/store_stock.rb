@@ -75,7 +75,7 @@ class StoreStock < Stock
                 begin
                     returned_car = Car.find_by(id: item.engine_number)
                     if(!returned_car.nil?)
-                        self.cars << returned_car.first
+                        self.cars << returned_car
                     end
                 rescue StandardError => e
                     Rails.logger.error e
