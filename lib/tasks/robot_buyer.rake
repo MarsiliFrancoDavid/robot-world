@@ -5,8 +5,8 @@ namespace :robot_buyer do
         car_models = CarModel.all
         store_stock = StoreStock.find_by name: "Store Stock"
         if(car_models.length > 0 && store_stock != nil)
-            buy_pending_prob = (ENV["PERCENTAGE_TO_ASK_ABOUT_PENDING_CARS"] == nil ? 20 : ENV["PERCENTAGE_TO_ASK_ABOUT_PENDING_CARS"].to_i)
-            max_retries = (ENV["MAX_RETRIES_ON_PENDING_CARS"] == nil ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
+            buy_pending_prob = (ENV["PERCENTAGE_TO_ASK_ABOUT_PENDING_CARS"].nil? ? 20 : ENV["PERCENTAGE_TO_ASK_ABOUT_PENDING_CARS"].to_i)
+            max_retries = (ENV["MAX_RETRIES_ON_PENDING_CARS"].nil? ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
 
             pending_orders = Array.new(Order.with_status(:pending).with_retries_not_maxed_out(max_retries))
 
@@ -48,7 +48,7 @@ namespace :robot_buyer do
 
 
     task exchange_cars: [:environment] do
-        exchange_amount_in_wave = (ENV["EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE"] == nil ? 3 : ENV["EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE"].to_i)
+        exchange_amount_in_wave = (ENV["EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE"].nil? ? 3 : ENV["EXCHANGE_AMOUNT_IN_EXCHANGE_WAVE"].to_i)
         completed_orders = Array.new(Order.with_status(:complete).still_in_guarantee)
         exchange_pending_orders = Array.new(Order.with_status(:exchange_pending))
         car_models = CarModel.all

@@ -6,15 +6,15 @@ namespace :robot_builder do
     desc "Robot builder tasks"
 
     
-    cars_per_min = (ENV["CARS_PRODUCED_PER_MIN"] == nil ? 10 : ENV["CARS_PRODUCED_PER_MIN"].to_i)
-    deffective_prob = (ENV["COMPONENT_DEFFECTIVE_PERCENTAGE"] == nil ? 2 : ENV["COMPONENT_DEFFECTIVE_PERCENTAGE"].to_i)
+    cars_per_min = (ENV["CARS_PRODUCED_PER_MIN"].nil? ? 10 : ENV["CARS_PRODUCED_PER_MIN"].to_i)
+    deffective_prob = (ENV["COMPONENT_DEFFECTIVE_PERCENTAGE"].nil? ? 2 : ENV["COMPONENT_DEFFECTIVE_PERCENTAGE"].to_i)
     
     task start_production: [:environment] do
         car_factory = CarFactory.new
         car_models = CarModel.all
 
         if(car_models.length > 0 )
-            components = JSON.parse((ENV["CAR_COMPONENTS"] == nil ? '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}' : ENV["CAR_COMPONENTS"]))
+            components = JSON.parse(ENV["CAR_COMPONENTS"] || '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}')
 
             puts "Attempting to start car creation"
 

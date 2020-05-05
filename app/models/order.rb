@@ -14,7 +14,7 @@ class Order < ApplicationRecord
 	#evaluates if the order is completed based on if its items have an engine_number attribute defined, if not it means
 	#that there was no stock for the operation, wether it be first transaction, a pending transaction or an exchange
   	def checkout
-      	max_retries = (ENV["MAX_RETRIES_ON_PENDING_CARS"] == nil ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
+      	max_retries = (ENV["MAX_RETRIES_ON_PENDING_CARS"].nil? ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
 		lost = false
 		completed = true  
 

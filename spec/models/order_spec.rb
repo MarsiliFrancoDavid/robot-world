@@ -21,8 +21,8 @@ RSpec.describe Order do
     end
 
     it "should checkout an order status according to the order condition" do
-        max_retries = (ENV["MAX_RETRIES_ON_PENDING_CARS"] == nil ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
-        components = JSON.parse((ENV["CAR_COMPONENTS"] == nil ? '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}' : ENV["CAR_COMPONENTS"]))
+        max_retries = (ENV["MAX_RETRIES_ON_PENDING_CARS"].nil? ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
+        components = JSON.parse(ENV["CAR_COMPONENTS"] || '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}')
 
         car_model = CarModel.create(car_model_name: "Ford Focus XR",year: 1980,price: 10000,cost_price: 500)
         car1 = Car.new

@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe DeffectiveStock do
-    components = JSON.parse((ENV["CAR_COMPONENTS"] == nil ? '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}' : ENV["CAR_COMPONENTS"]))
+    components = JSON.parse(ENV["CAR_COMPONENTS"] || '{"wheel":4,"chassis":1,"laser":1,"computer":1,"engine":1,"seat":2}')
 
     it "should return the amount of non deffective pieces recovered and destroy the car that had them as well as the defective component/s" do
         stock = DeffectiveStock.create(name: "Deffective Stock", type: "DeffectiveStock")
