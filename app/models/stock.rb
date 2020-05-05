@@ -15,7 +15,7 @@ class Stock < ApplicationRecord
                 puts self.errors.full_messages
             end
         rescue StandardError => e
-            print e
+            Rails.logger.error e
         end
     end
 
@@ -30,7 +30,7 @@ class Stock < ApplicationRecord
                 puts self.errors.full_messages
             end
         rescue StandardError => e
-            print e
+            Rails.logger.error e
         end
         cars_copy
     end

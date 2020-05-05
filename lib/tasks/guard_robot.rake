@@ -41,7 +41,7 @@ namespace :guard_robot do
                     puts "#{no_deffects_cars.length} out of #{factory_stock_cars.length} cars were found as non deffective and moved to the store stock"
                 end
             rescue StandardError => e
-                print e
+                Rails.logger.error e
             end
 
             begin
@@ -53,7 +53,7 @@ namespace :guard_robot do
                     end
                 end
             rescue StandardError => e
-                print e
+                Rails.logger.error e
             end
 
             begin
@@ -62,7 +62,7 @@ namespace :guard_robot do
                     puts "The deffective cars were destroyed and we retrieved #{retrieved_components} non deffective parts to be used in the future."
                 end
             rescue StandardError => e
-                print e
+                Rails.logger.error e
             end
         else
             puts "There's no stocks loaded on the database for the guard robot to work on."

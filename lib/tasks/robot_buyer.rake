@@ -26,7 +26,7 @@ namespace :robot_buyer do
                         pending_orders << order
                     end
                 rescue StandardError => e
-                    print e
+                    Rails.logger.error e
                 end
             end
 
@@ -37,7 +37,7 @@ namespace :robot_buyer do
                     begin
                         store_stock.execute_order(order)
                     rescue StandardError => e
-                        print e
+                        Rails.logger.error e
                     end
                 end
             end
@@ -80,7 +80,7 @@ namespace :robot_buyer do
                             puts exchange_order.errors.full_messages
                         end
                     rescue StandardError => e
-                        print e
+                        Rails.logger.error e
                     end
                 end
 
@@ -94,7 +94,7 @@ namespace :robot_buyer do
                         puts exchange_order.errors.full_messages
                     end
                 rescue StandardError => e
-                    print e
+                    Rails.logger.error e
                 end
                 exchange_pending_orders << exchange_order
             end

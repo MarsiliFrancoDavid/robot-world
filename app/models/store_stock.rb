@@ -36,7 +36,7 @@ class StoreStock < Stock
                 puts self.errors.full_messages
             end
         rescue StandardError => e
-            print e
+            Rails.logger.error e
         end
 
         order
@@ -58,7 +58,7 @@ class StoreStock < Stock
                     puts "An error ocurred saving item with ID: #{item.id}"
                 end
             rescue StandardError => e
-                print e
+                Rails.logger.error e
             end
         else
             puts "We didn't find stock for item with ID #{item.id} for model #{item.year} #{item.car_model_name} of order with purchaseID: #{item.order.id}"
@@ -77,7 +77,7 @@ class StoreStock < Stock
                             self.cars << returned_car.first
                         end
                     rescue StandardError => e
-                        print e
+                        Rails.logger.error e
                     end
                 end
                 item.engine_number = nil

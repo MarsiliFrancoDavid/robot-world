@@ -13,7 +13,7 @@ class DeffectiveStock < Stock
                 components_returned += car.components.not_deffectives.delete_all
                 car.components.deffectives.destroy_all
             rescue StandardError => e
-                print e
+                Rails.logger.error e
             end
 
             self.cars.delete(car)
@@ -21,7 +21,7 @@ class DeffectiveStock < Stock
             begin
                 car.destroy
             rescue StandardError => e
-                print e
+                Rails.logger.error e
             end
         end
         
@@ -31,7 +31,7 @@ class DeffectiveStock < Stock
                 puts self.errors.full_messages
             end
         rescue StandardError => e
-            print e
+            Rails.logger.error e
         end
         
         components_returned

@@ -48,7 +48,7 @@ namespace :robot_builder do
                     car_factory.start_production(car)
                     
                 rescue StandardError => e
-                    print e
+                    Rails.logger.error e
                 end
             end
             factory_stock = Stock.find_by name: "Factory Stock"
@@ -76,7 +76,7 @@ namespace :robot_builder do
                     puts order.errors.full_messages
                 end
             rescue StandardError => e
-                print e
+                Rails.logger.error e
             end
         end
         #Destroy every car existing in the Factory and Store stock. The ones that don't have
@@ -90,7 +90,7 @@ namespace :robot_builder do
                 begin
                     car.destroy
                 rescue StandardError => e
-                    print e
+                    Rails.logger.error e
                 end
             end
         end
@@ -101,7 +101,7 @@ namespace :robot_builder do
                 begin
                     car.destroy
                 rescue StandardError => e
-                    print e
+                    Rails.logger.error e
                 end
             end
         end

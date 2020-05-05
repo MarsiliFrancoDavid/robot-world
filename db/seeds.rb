@@ -10,7 +10,7 @@ if (start_from_scratch)
         Stock.destroy_all
         puts "Succesfully destroyed all car models, cars , car components, stocks and orders with its order items that previously existed"
     rescue StandardError => e
-        print e
+        Rails.logger.error e
     end
 
     begin
@@ -19,7 +19,7 @@ if (start_from_scratch)
         Stock.create(name: "Deffective Stock", type: "DeffectiveStock")
         puts "Succesfully created the Factory, Store and Deffective Stock"
     rescue StandardError => e
-        print e
+        Rails.logger.error e
     end
 end
 
@@ -45,7 +45,7 @@ begin
     end
 
 rescue StandardError => e
-    print e
+    Rails.logger.error e
 end
 
 

@@ -64,7 +64,7 @@ class Order < ApplicationRecord
           		puts "An error ocurred trying to save the order in the checkout process"
         	end
       	rescue StandardError => e
-        	print e
+        	Rails.logger.error e
 		end
 		  
 		#return the modified order for the stock to know if it has to store it as a complete / lost sale / lost exchange order.
