@@ -10,7 +10,10 @@ class DeffectiveStock < Stock
         components_returned = 0
         self.cars.each do | car |
             begin
-                components_returned += car.components.not_deffectives.delete_all
+                components_returned += car.components.not_deffectives.count
+                car.components.not_deffectives.each do | not_deffective_component |
+                    car.components.delete(not_deffective_component)
+                end
                 car.components.deffectives.destroy_all
             rescue StandardError => e
                 Rails.logger.error e

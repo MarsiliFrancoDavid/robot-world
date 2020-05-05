@@ -49,7 +49,7 @@ class StoreStock < Stock
     def handle_item(item)
         puts "Attempting to buy a #{item.year} #{item.car_model_name}, purchaseID : #{item.order.id}"
 
-        result = self.cars.with_model_name(car_model_name).with_model_year(year).first
+        result = self.cars.with_model_name(item.car_model_name).with_model_year(item.year).first
 
         if(!result.nil?)
             puts "Stock encounterd for item with ID #{item.id}"
