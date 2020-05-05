@@ -8,7 +8,7 @@ RSpec.describe Car do
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
-                car.components << Component.create(name:key,deffective:false)
+                car.components << Component.create(name:key,is_deffective:false)
             end
         end
         car_model.cars << car
@@ -17,7 +17,7 @@ RSpec.describe Car do
         expect(car_model.cars.first.id).to be(car.id)
         expect(car.errors.full_messages).to match_array([])
         expect(car.get_stage).to eq(:uninitialized)
-        expect(car.deffects).to match_array([])
+        expect(car.is_deffective?).to be(false)
         expect(car.completed).to be(false)
     end
 
@@ -32,7 +32,7 @@ RSpec.describe Car do
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
-                car.components << Component.create(name:key,deffective:false)
+                car.components << Component.create(name:key,is_deffective:false)
             end
         end
         car_model.cars << car
@@ -44,7 +44,7 @@ RSpec.describe Car do
 
 
     it "should be destroyed if no more components are associated to the car" do 
-        comp = Component.create(name:"Wheel",deffective:false)
+        comp = Component.create(name:"Wheel",is_deffective:false)
         car_model = CarModel.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500)
         car = Car.create
         car_model.cars << car

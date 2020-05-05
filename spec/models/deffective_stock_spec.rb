@@ -9,7 +9,7 @@ RSpec.describe DeffectiveStock do
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
-                car.components << Component.create(name:key,deffective:rand(100) < 75)
+                car.components << Component.create(name:key,is_deffective:rand(100) < 75)
             end
         end
         car_array = Array.new
@@ -20,8 +20,8 @@ RSpec.describe DeffectiveStock do
 
         stock.add_cars(car_array)
         
-        actually_deffective_comps = car.components.select{ | component | component.deffective}
-        should_retrieve = car.components.select{ | component | !component.deffective}.length
+        actually_deffective_comps = car.components.select{ | component | component.is_deffective}
+        should_retrieve = car.components.select{ | component | !component.is_deffective}.length
         retrieved_components_amount = stock.turn_deffective_cars_into_components
 
         expect(retrieved_components_amount).to eq(should_retrieve)

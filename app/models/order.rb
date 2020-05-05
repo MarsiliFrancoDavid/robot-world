@@ -1,7 +1,11 @@
 class Order < ApplicationRecord
 	belongs_to :stock, class_name: "Stock", optional: true
 	has_many :orderItems
-	validates :status, :retries, :in_guarantee, presence: true
+	validates :status, :retries, presence: true
+	scope :completed_before_yesterday, -> { where('completed_date < ?',Time.zone.today) }
+	scope :with_status, -> (status) { where('status = ?',status.to_s) }
+	scope :with_retries_not_maxed_out, -> (max_retries) { where('retries < ?',max_retries) }
+	scope :still_in_guarantee, -> { where('in_guarantee = ?',true) }
 
 	def get_status
         self.status.parameterize.underscore.to_sym
@@ -11,20 +15,15 @@ class Order < ApplicationRecord
 	#that there was no stock for the operation, wether it be first transaction, a pending transaction or an exchange
   	def checkout
       	max_retries = (ENV["MAX_RETRIES_ON_PENDING_CARS"] == nil ? 3 : ENV["MAX_RETRIES_ON_PENDING_CARS"].to_i)
-      	completed = true
-      	lost = false
+		lost = false
+		completed = true  
 
 		self.orderItems.each do | item |
 			#also check for the car to still exist at the moment of the checkout, because maybe it could be
 			#deleted due to the cleanup daily task.
-			if(item.engine_number != nil)
-				begin
-					carItem = Car.where('id = ?',item.engine_number)
-				rescue StandardError => e
-					print e
-				end
-			end
-			if(item.engine_number == nil || (item.engine_number != nil && carItem.length == 0))
+			carItem = Car.find_by(id: item.engine_number)
+
+			if(carItem == nil)
           		completed = false
         	end
       	end

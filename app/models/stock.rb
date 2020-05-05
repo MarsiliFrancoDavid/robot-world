@@ -8,6 +8,7 @@ class Stock < ApplicationRecord
         cars.each do | car |
             self.cars << car
         end
+
         begin
             if(!self.save)
                 puts "An error has ocurred saving the cars in the #{self.name}"
@@ -20,12 +21,8 @@ class Stock < ApplicationRecord
 
     #deletes the association of each car to this stock and return all of them as an array
     def withdraw_cars
-        cars_copy = Array.new
-
-        self.cars.each do | car | 
-            self.cars.delete(car)
-            cars_copy << car
-        end
+        cars_copy = Array.new(self.cars)
+        self.cars.delete_all
 
         begin
             if(!self.save)

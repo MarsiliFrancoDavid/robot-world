@@ -12,7 +12,7 @@ RSpec.describe StoreStock do
         returned_car = Car.new
         components.each do | key , value |
             value.to_i.times do
-                returned_car.components << Component.create(name:key,deffective:false)
+                returned_car.components << Component.create(name:key,is_deffective:false)
             end
         end
         car_model.cars << returned_car
@@ -22,7 +22,7 @@ RSpec.describe StoreStock do
         car_model.cars << returned_car2
         components.each do | key , value |
             value.to_i.times do
-                returned_car2.components << Component.create(name:key,deffective:false)
+                returned_car2.components << Component.create(name:key,is_deffective:false)
             end
         end
         returned_car2.save
@@ -41,7 +41,7 @@ RSpec.describe StoreStock do
         car_in_stock = Car.new
         components.each do | key , value |
             value.to_i.times do
-                car_in_stock.components << Component.create(name:key,deffective:false)
+                car_in_stock.components << Component.create(name:key,is_deffective:false)
             end
         end
         car_array = Array.new
@@ -73,7 +73,7 @@ RSpec.describe StoreStock do
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
-                car.components << Component.create(name:key,deffective:false)
+                car.components << Component.create(name:key,is_deffective:false)
             end
         end
         car_array = Array.new

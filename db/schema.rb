@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_04_010011) do
+ActiveRecord::Schema.define(version: 2020_05_05_071803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_010011) do
 
   create_table "cars", force: :cascade do |t|
     t.text "deffects", default: [], array: true
-    t.string "stage", default: :uninitialized
+    t.string "stage", default: "Uninitialized"
     t.boolean "completed", default: false
     t.bigint "stock_id"
     t.bigint "car_model_id"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_010011) do
 
   create_table "components", force: :cascade do |t|
     t.string "name"
-    t.boolean "deffective"
+    t.boolean "is_deffective"
     t.bigint "car_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_010011) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string "status", default: :incomplete
+    t.string "status", default: "incomplete"
     t.bigint "stock_id"
     t.integer "retries", default: 0
     t.date "completed_date"

@@ -8,14 +8,14 @@ RSpec.describe Component do
     end
 
     it "should display data correctly when assigned a name and a deffective boolean" do
-        comp = Component.create(name:"Wheel",deffective:false)
+        comp = Component.create(name:"Wheel",is_deffective:false)
 
         expect(comp.name).to eq("Wheel")
-        expect(comp.deffective).to be(false)
+        expect(comp.is_deffective).to be(false)
     end
 
     it "should become associated to a car when specified" do
-        comp = Component.create(name:"Wheel",deffective:false)
+        comp = Component.create(name:"Wheel",is_deffective:false)
         car = Car.create
         car.components << comp
 
@@ -23,7 +23,7 @@ RSpec.describe Component do
     end
 
     it "should be destroyed with no dependencies restriction" do
-        comp = Component.create(name:"Wheel",deffective:false)
+        comp = Component.create(name:"Wheel",is_deffective:false)
 
         comp.destroy
 

@@ -29,11 +29,11 @@ namespace :robot_builder do
                     #that can be reused
                     components.each do | key , value |
                         value.to_i.times do
-                            retrieved_component = Component.find_by(name:key,deffective:false,car_id:nil)
+                            retrieved_component = Component.find_by(name:key,is_deffective:false,car_id:nil)
                             if(retrieved_component != nil)
                                 car.components << retrieved_component
                             else
-                                car.components << Component.create(name:key,deffective:rand(100) < deffective_prob)
+                                car.components << Component.create(name:key,is_deffective:rand(100) < deffective_prob)
                             end
                         end
                     end
@@ -42,6 +42,7 @@ namespace :robot_builder do
                         puts "An error has ocurred saving a new car when starting production"
                         puts car.errors.full_messages
                     end
+
 
                     #this will take the car through the whole building process
                     car_factory.start_production(car)
@@ -55,6 +56,7 @@ namespace :robot_builder do
             #after the cars being completed, the robot builder withdraws them from the
             #factory circuit and takes them to the factory store
             factory_stock.add_cars(car_factory.withdraw_completed_cars)
+
             puts "Total of cars in the factory stock : #{factory_stock.cars.length}"
         else
             puts "There's no CarModels loaded in the database for the robot builder to work with."
@@ -64,19 +66,17 @@ namespace :robot_builder do
     task cleanup: [:environment] do
         #everyday, the orders that are completed, older than yesterday and still in guarantee will now
         #not, so the exchange operation will be invalid
-        completed_orders = Order.where('in_guarantee = ? AND status = ?',true,'complete')
+        completed_in_guarantee_orders_before_yesterday = Order.with_status(:complete).completed_before_yesterday.still_in_guarantee
 
-        completed_orders.each do | order |
-            if(order.completed_date < Time.zone.yesterday)
-                order.in_guarantee = false
-                begin
-                    if(!order.save)
-                        puts "An error has ocurred saving orders after modifying its guarantee attribute in the cleanup"
-                        puts order.errors.full_messages
-                    end
-                rescue StandardError => e
-                    print e
+        completed_in_guarantee_orders_before_yesterday.each do | order |
+            order.in_guarantee = false
+            begin
+                if(!order.save)
+                    puts "An error has ocurred saving orders after modifying its guarantee attribute in the cleanup"
+                    puts order.errors.full_messages
                 end
+            rescue StandardError => e
+                print e
             end
         end
         #Destroy every car existing in the Factory and Store stock. The ones that don't have
@@ -86,9 +86,7 @@ namespace :robot_builder do
         factory_stock = Stock.find_by(name:"Factory Stock")
         if(store_stock != nil)
             store_stock.cars.each do | car |
-                car.components.each do | component |
-                    car.components.delete(component)
-                end
+                car.components.delete_all
                 begin
                     car.destroy
                 rescue StandardError => e
@@ -99,9 +97,7 @@ namespace :robot_builder do
 
         if(factory_stock != nil)
             factory_stock.cars.each do | car |
-                car.components.each do | component |
-                    car.components.delete(component)
-                end
+                car.components.delete_all
                 begin
                     car.destroy
                 rescue StandardError => e

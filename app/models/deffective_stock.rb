@@ -9,19 +9,15 @@ class DeffectiveStock < Stock
     def turn_deffective_cars_into_components
         components_returned = 0
         self.cars.each do | car |
-            car.components.each do | component |
-                car.components.delete(component)
-                if(!component.deffective)
-                    components_returned += 1
-                else
-                    begin
-                        component.destroy
-                    rescue StandardError => e
-                        print e
-                    end
-                end
+            begin
+                components_returned += car.components.not_deffectives.delete_all
+                car.components.deffectives.destroy_all
+            rescue StandardError => e
+                print e
             end
+
             self.cars.delete(car)
+            
             begin
                 car.destroy
             rescue StandardError => e

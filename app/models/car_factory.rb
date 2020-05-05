@@ -51,10 +51,8 @@ class CarFactory
         end
 
         if(car.completed)
-            car.components.each do | component |
-                if(component.deffective)
-                    car.deffects << component.name
-                end
+            car.components.deffectives.each do | component |
+                car.deffects << component.name
             end
             @completed_cars << car
         else

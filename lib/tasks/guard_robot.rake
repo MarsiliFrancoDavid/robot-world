@@ -19,7 +19,7 @@ namespace :guard_robot do
         deffective_stock = DeffectiveStock.find_by name: "Deffective Stock"
 
         if(factory_stock != nil && store_stock != nil)
-            factory_stock_cars = Array.new(factory_stock.withdraw_cars)
+            factory_stock_cars = factory_stock.withdraw_cars
 
             puts "#{factory_stock_cars.length} cars substracted from the factory stock"
             if(factory_stock_cars.length > 0)
@@ -27,7 +27,7 @@ namespace :guard_robot do
             end
             
             factory_stock_cars.each do | car |
-                if(car.deffects.length > 0)
+                if(car.is_deffective?)
                     deffective_cars << car
                 else
                     no_deffects_cars << car

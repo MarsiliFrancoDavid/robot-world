@@ -24,7 +24,7 @@ RSpec.describe Stock do
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
-                car.components << Component.create(name:key,deffective:false)
+                car.components << Component.create(name:key,is_deffective:false)
             end
         end
         car_model.cars << car
@@ -51,7 +51,7 @@ RSpec.describe Stock do
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
-                car.components << Component.create(name:key,deffective:false)
+                car.components << Component.create(name:key,is_deffective:false)
             end
         end
         car_array = Array.new
@@ -71,7 +71,7 @@ RSpec.describe Stock do
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
-                car.components << Component.create(name:key,deffective:false)
+                car.components << Component.create(name:key,is_deffective:false)
             end
         end
         car_array = Array.new
@@ -92,7 +92,7 @@ RSpec.describe Stock do
         car = Car.new
         components.each do | key , value |
             value.to_i.times do
-                car.components << Component.create(name:key,deffective:false)
+                car.components << Component.create(name:key,is_deffective:false)
             end
         end
         car_array = Array.new

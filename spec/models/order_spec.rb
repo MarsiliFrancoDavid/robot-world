@@ -30,9 +30,9 @@ RSpec.describe Order do
         car3 = Car.new
         components.each do | key , value |
             value.to_i.times do
-                car1.components << Component.create(name:key,deffective:false)
-                car2.components << Component.create(name:key,deffective:false)
-                car3.components << Component.create(name:key,deffective:false)
+                car1.components << Component.create(name:key,is_deffective:false)
+                car2.components << Component.create(name:key,is_deffective:false)
+                car3.components << Component.create(name:key,is_deffective:false)
             end
         end
         car_model.cars << car1
