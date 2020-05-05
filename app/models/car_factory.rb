@@ -31,15 +31,19 @@ class CarFactory
     def send_to_next_line(car)
         previous_stage = car.get_stage
 
-        if(previous_stage == :uninitialized)
+        case previous_stage
+
+        when :uninitialized
             car.stage = :basic_structure
-        elsif (previous_stage == :basic_structure)
+        when :basic_structure
             car.stage = :electronic_devices
-        elsif (previous_stage == :electronic_devices)
+        when :electronic_devices
             car.stage = :painting_and_final_details
-        elsif (previous_stage == :painting_and_final_details)
+        when :painting_and_final_details
             car.stage = :completed
             car.completed = true
+        else
+            puts "Car Factory was unable to handle the stage of car with id #{car.id}"
         end
 
         unless(previous_stage === :uninitialized)

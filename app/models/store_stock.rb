@@ -4,11 +4,19 @@ class StoreStock < Stock
     #Takes an order and handles each item individually. Then checkouts the order and based on the checkout result will or won't
     #store the order in the stock.
     def execute_order(order)
+        action = "Do Nothing"
 
-        
-        puts "Attempting to complete order with purchaseID: #{order.id}" if(order.get_status == :incomplete)
-        puts "Attempting to retry pending order with purchaseID: #{order.id}" if(order.get_status == :pending)
-        puts "Attempting to exchange order with purchaseID: #{order.id}" if(order.get_status == :exchange_pending)
+        case order.get_status
+
+        when :incomplete
+            action = "complete order"
+        when :pending
+            action = "retry pending order"
+        when :exchange_pending
+            action = "exchange order"
+        end
+
+        puts "Attempting to #{action} with purchaseID: #{order.id}" 
 
         order.orderItems.each do | item |
             handle_item(item)
