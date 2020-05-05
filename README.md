@@ -80,6 +80,8 @@ If in any moment you want to access the rails console to make some tests, just t
 
 <img src='./public/robot-world-UML.png'>
 
+In order to clarify the flow of this project but to no longer extend the Readme, I've created [this document](https://docs.google.com/document/d/1IogkwtHjTzrFMr3FADonEnHVM7AQcQTy3clHC9FeM70/edit?usp=sharing).
+ 
 The whole car building process stands on these models :
 
 + CarModel: States the Model name, year, price and cost of this particular model.

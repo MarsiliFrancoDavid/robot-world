@@ -19,7 +19,9 @@ class StoreStock < Stock
         puts "Attempting to #{action} with purchaseID: #{order.id}" 
 
         order.orderItems.each do | item |
-            handle_item(item)
+            if(item.engine_number.nil?)
+                handle_item(item)
+            end
         end
 
         order = order.checkout

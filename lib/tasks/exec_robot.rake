@@ -29,7 +29,7 @@ namespace :exec_robot do
                 order.orderItems.each do | item |
                     total_prices += (item.price - item.cost_price)
                     total_cars += 1
-                    if(item.engine_number != nil)
+                    if(!item.engine_number.nil?)
                         cars_sold += 1
                         daily_revenue += (item.price - item.cost_price)
                         daily_cost += item.cost_price
