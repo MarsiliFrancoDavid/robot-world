@@ -36,6 +36,6 @@ class Stock < ApplicationRecord
     end
 
     def consult_cars_stock_by_model_name(car_model_name , year)
-        result = (self.cars.joins(:car_model).where('car_models.car_model_name' => car_model_name , 'car_models.year' => year)).length
+        result = self.cars.with_model_name(car_model_name).with_model_year(year).count
     end
 end

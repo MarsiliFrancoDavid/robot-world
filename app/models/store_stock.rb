@@ -49,9 +49,9 @@ class StoreStock < Stock
     def handle_item(item)
         puts "Attempting to buy a #{item.year} #{item.car_model_name}, purchaseID : #{item.order.id}"
 
-        result = self.cars.joins(:car_model).where('car_models.car_model_name' => item.car_model_name , 'car_models.year' => item.year).first
+        result = self.cars.with_model_name(car_model_name).with_model_year(year).first
 
-        if(result)
+        if(!result.nil?)
             puts "Stock encounterd for item with ID #{item.id}"
             item.engine_number = result.id
             self.cars.delete(result) 
@@ -72,15 +72,13 @@ class StoreStock < Stock
     def exchange_car(order)
         order.orderItems.each do | item |
             if(item != false)
-                if(item.engine_number)
-                    begin
-                        returned_car = Car.where('id = ?',item.engine_number)
-                        if(returned_car.length > 0)
-                            self.cars << returned_car.first
-                        end
-                    rescue StandardError => e
-                        Rails.logger.error e
+                begin
+                    returned_car = Car.find_by(id: item.engine_number)
+                    if(!returned_car.nil?)
+                        self.cars << returned_car.first
                     end
+                rescue StandardError => e
+                    Rails.logger.error e
                 end
                 item.engine_number = nil
                 if(!item.save)
