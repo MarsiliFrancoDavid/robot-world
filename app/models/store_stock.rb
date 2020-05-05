@@ -47,10 +47,9 @@ class StoreStock < Stock
     def handle_item(item)
         puts "Attempting to buy a #{item.year} #{item.car_model_name}, purchaseID : #{item.order.id}"
 
-        result = self.cars.joins(:car_model).where('car_models.car_model_name' => item.car_model_name , 'car_models.year' => item.year).limit(1)
+        result = self.cars.joins(:car_model).where('car_models.car_model_name' => item.car_model_name , 'car_models.year' => item.year).first
 
-        if(result.length > 0)
-            result = result.first
+        if(result)
             puts "Stock encounterd for item with ID #{item.id}"
             item.engine_number = result.id
             self.cars.delete(result) 
