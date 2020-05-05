@@ -58,7 +58,7 @@ namespace :guard_robot do
 
             begin
                 retrieved_components = deffective_stock.turn_deffective_cars_into_components
-                unless (retrieved_components == nil || retrieved_components == 0)
+                unless (retrieved_components.nil? || retrieved_components == 0)
                     puts "The deffective cars were destroyed and we retrieved #{retrieved_components} non deffective parts to be used in the future."
                 end
             rescue StandardError => e

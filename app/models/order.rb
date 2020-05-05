@@ -23,7 +23,7 @@ class Order < ApplicationRecord
 			#deleted due to the cleanup daily task.
 			carItem = Car.find_by(id: item.engine_number)
 
-			if(carItem == nil)
+			if(carItem.nil?)
           		completed = false
         	end
       	end
