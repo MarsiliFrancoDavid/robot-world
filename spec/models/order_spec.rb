@@ -70,25 +70,25 @@ RSpec.describe Order do
         OrderItem.create(car_model_name: "Ford Taunus",year: 1980,price: 10000,cost_price: 500,order_id:exchange_pending_with_en.id,engine_number: car3.id)
         exchange_pending_with_en = exchange_pending_with_en.checkout
 
-        expect(incomplete_order_with_en.status).to eq("complete")
+        expect(incomplete_order_with_en.get_status).to eq(:complete)
         expect(incomplete_order_with_en.completed_date).to eq(Time.zone.today)
 
-        expect(incomplete_order_no_en.status).to eq("pending")
+        expect(incomplete_order_no_en.get_status).to eq(:pending)
 
-        expect(pending_order_with_en.status).to eq("complete")
+        expect(pending_order_with_en.get_status).to eq(:complete)
         expect(pending_order_with_en.completed_date).to eq(Time.zone.today)
 
-        expect(pending_order_no_en_no_retries.status).to eq("pending")
+        expect(pending_order_no_en_no_retries.get_status).to eq(:pending)
         expect(pending_order_no_en_no_retries.retries).to eq(1)
 
-        expect(pending_order_no_en_max_retries.status).to eq("lost sale")
+        expect(pending_order_no_en_max_retries.get_status).to eq(:lost_sale)
         expect(pending_order_no_en_max_retries.completed_date).to eq(Time.zone.today)
 
-        expect(exchange_pending_no_en.status).to eq("lost exchange")
+        expect(exchange_pending_no_en.get_status).to eq(:lost_exchange)
         expect(exchange_pending_no_en.retries).to eq(max_retries)
         expect(exchange_pending_no_en.completed_date).to eq(Time.zone.today)
 
-        expect(exchange_pending_with_en.status).to eq("complete")
+        expect(exchange_pending_with_en.get_status).to eq(:complete)
         expect(exchange_pending_with_en.completed_date).to eq(Time.zone.today)
     end
 end

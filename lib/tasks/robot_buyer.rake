@@ -22,7 +22,7 @@ namespace :robot_buyer do
                     #If the possible cars turns to be an array with actual car objects, the order was already declared completed, saved,
                     #the car disassociated from the stock and it now belongs to the robot buyer. If it isn't, it will be stored
                     #as a pending order and retried after.
-                    if(order.status == "pending")
+                    if(order.get_status == :pending)
                         pending_orders << order
                     end
                 rescue StandardError => e
@@ -62,7 +62,7 @@ namespace :robot_buyer do
             exchange_amount_in_wave.times do
                 exchange_order = completed_orders.sample
                 completed_orders.delete(exchange_order)
-                exchange_order.status = "exchange pending"
+                exchange_order.status = :exchange_pending
 
                 exchange_order.orderItems.each do | item |
                     different_car_models = Array.new(car_models.select{ | model | model.car_model_name != item.car_model_name && model.year != item.year })

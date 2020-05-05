@@ -6,9 +6,9 @@ class StoreStock < Stock
     def execute_order(order)
 
         
-        puts "Attempting to complete order with purchaseID: #{order.id}" if(order.status == "incomplete")
-        puts "Attempting to retry pending order with purchaseID: #{order.id}" if(order.status == "pending")
-        puts "Attempting to exchange order with purchaseID: #{order.id}" if(order.status == "exchange pending")
+        puts "Attempting to complete order with purchaseID: #{order.id}" if(order.get_status == :incomplete)
+        puts "Attempting to retry pending order with purchaseID: #{order.id}" if(order.get_status == :pending)
+        puts "Attempting to exchange order with purchaseID: #{order.id}" if(order.get_status == :exchange_pending)
 
         order.orderItems.each do | item |
             handle_item(item)
@@ -17,7 +17,7 @@ class StoreStock < Stock
         order = order.checkout
 
 
-        if(order.status == "complete" || order.status == "lost sale" || order.status == "lost exchange")
+        if(order.get_status == :complete || order.get_status == :lost_sale || order.get_status == :lost_exchange)
             order.stock_id = self.id
             order.save
         end

@@ -10,9 +10,9 @@ class CarFactory
     #Each Car is identified by it"s ID as a hash key inside each production line
     def initialize()
         @assembly_lines = { 
-            "Basic Structure"            => {},
-            "Electronic devices"         => {},
-            "Painting and final details" => {}
+            :basic_structure            => {},
+            :electronic_devices         => {},
+            :painting_and_final_details => {}
         }
         @completed_cars = []
     end
@@ -29,20 +29,20 @@ class CarFactory
     end
 
     def send_to_next_line(car)
-        previous_stage = car.stage
+        previous_stage = car.get_stage
 
-        if(previous_stage.downcase == "uninitialized")
-            car.stage = "Basic Structure"
-        elsif (previous_stage.downcase == "basic structure")
-            car.stage = "Electronic devices"
-        elsif (previous_stage.downcase == "electronic devices")
-            car.stage = "Painting and final details"
-        elsif (previous_stage.downcase == "painting and final details")
-            car.stage = "completed"
+        if(previous_stage == :uninitialized)
+            car.stage = :basic_structure
+        elsif (previous_stage == :basic_structure)
+            car.stage = :electronic_devices
+        elsif (previous_stage == :electronic_devices)
+            car.stage = :painting_and_final_details
+        elsif (previous_stage == :painting_and_final_details)
+            car.stage = :completed
             car.completed = true
         end
 
-        unless(previous_stage.downcase === "uninitialized")
+        unless(previous_stage === :uninitialized)
             @assembly_lines[previous_stage].delete(car.id.to_s)
         end
 
@@ -54,7 +54,7 @@ class CarFactory
             end
             @completed_cars << car
         else
-            @assembly_lines[car.stage][car.id.to_s] = car
+            @assembly_lines[car.get_stage][car.id.to_s] = car
         end
         return car
     end

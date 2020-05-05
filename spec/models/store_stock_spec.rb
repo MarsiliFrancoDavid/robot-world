@@ -57,8 +57,8 @@ RSpec.describe StoreStock do
 
         expect(stock.cars.find{| car | car.id == returned_car.id}.id).to eq(returned_car.id)
         expect(stock.cars.find{| car | car.id == returned_car2.id}.id).to eq(returned_car2.id)
-        expect(will_exchange_order.status).to eq("complete")
-        expect(wont_exchange_order.status).to eq("lost exchange")
+        expect(will_exchange_order.get_status).to eq(:complete)
+        expect(wont_exchange_order.get_status).to eq(:lost_exchange)
     end
 
     it "should return an order with pending status if there's no car stock or an order with a complete status if there was, and add the completed order to the stock orders" do
@@ -87,8 +87,8 @@ RSpec.describe StoreStock do
         order = stock.execute_order(order)
         order_with_no_stock = stock.execute_order(order_with_no_stock)
 
-        expect(order.status).to eq("complete")
+        expect(order.get_status).to eq(:complete)
         expect(stock.orders.first.id).to eq(order.id)
-        expect(order_with_no_stock.status).to eq("pending")
+        expect(order_with_no_stock.get_status).to eq(:pending)
     end
 end

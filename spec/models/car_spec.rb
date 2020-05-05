@@ -16,7 +16,7 @@ RSpec.describe Car do
         
         expect(car_model.cars.first.id).to be(car.id)
         expect(car.errors.full_messages).to match_array([])
-        expect(car.stage).to eq("Uninitialized")
+        expect(car.get_stage).to eq(:uninitialized)
         expect(car.deffects).to match_array([])
         expect(car.completed).to be(false)
     end

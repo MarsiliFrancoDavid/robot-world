@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_010011) do
 
   create_table "cars", force: :cascade do |t|
     t.text "deffects", default: [], array: true
-    t.string "stage", default: "Uninitialized"
+    t.string "stage", default: :uninitialized
     t.boolean "completed", default: false
     t.bigint "stock_id"
     t.bigint "car_model_id"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_010011) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string "status", default: "incomplete"
+    t.string "status", default: :incomplete
     t.bigint "stock_id"
     t.integer "retries", default: 0
     t.date "completed_date"

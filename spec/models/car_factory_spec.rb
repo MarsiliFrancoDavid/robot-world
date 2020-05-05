@@ -8,9 +8,9 @@ RSpec.describe CarFactory do
 
         expect(car_factory.completed_cars).to match_array([])
         expect(car_factory.assembly_lines).to include(
-            "Basic Structure"            => {},
-            "Electronic devices"         => {},
-            "Painting and final details" => {}
+            :basic_structure           => {},
+            :electronic_devices         => {},
+            :painting_and_final_details => {}
         )
     end
 
@@ -29,6 +29,6 @@ RSpec.describe CarFactory do
         car_factory.start_production(car)
         
         expect(car.completed).to be(true)
-        expect(car.stage).to eq("completed")
+        expect(car.get_stage).to eq(:completed)
     end
 end

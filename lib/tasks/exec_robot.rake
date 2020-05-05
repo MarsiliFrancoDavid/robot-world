@@ -25,7 +25,7 @@ namespace :exec_robot do
                 in_guarantee += 1
             end
 
-            if(order.completed_date == Time.zone.yesterday || (order.status == "pending" && order.created_at.to_date == Time.zone.yesterday))
+            if(order.completed_date == Time.zone.yesterday || (order.get_status == :pending && order.created_at.to_date == Time.zone.yesterday))
                 order.orderItems.each do | item |
                     total_prices += (item.price - item.cost_price)
                     total_cars += 1
@@ -34,7 +34,7 @@ namespace :exec_robot do
                         daily_revenue += (item.price - item.cost_price)
                         daily_cost += item.cost_price
                     elsif
-                        if(item.order.status != "pending")
+                        if(item.order.get_status != :pending)
                             yesterday_lost_sales += 1
                             yesterday_revenue_lost += (item.price - item.cost_price)
                         else

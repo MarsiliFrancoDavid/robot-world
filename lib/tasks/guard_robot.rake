@@ -19,7 +19,7 @@ namespace :guard_robot do
         deffective_stock = DeffectiveStock.find_by name: "Deffective Stock"
 
         if(factory_stock != nil && store_stock != nil)
-            factory_stock_cars = Array.new(factory_stock.withdrawCars)
+            factory_stock_cars = Array.new(factory_stock.withdraw_cars)
 
             puts "#{factory_stock_cars.length} cars substracted from the factory stock"
             if(factory_stock_cars.length > 0)
@@ -37,7 +37,7 @@ namespace :guard_robot do
 
             begin
                 unless(no_deffects_cars.length == 0)
-                    store_stock.addCars(no_deffects_cars)
+                    store_stock.add_cars(no_deffects_cars)
                     puts "#{no_deffects_cars.length} out of #{factory_stock_cars.length} cars were found as non deffective and moved to the store stock"
                 end
             rescue StandardError => e
@@ -46,7 +46,7 @@ namespace :guard_robot do
 
             begin
                 unless(deffective_cars.length == 0)
-                    deffective_stock.addCars(deffective_cars)
+                    deffective_stock.add_cars(deffective_cars)
                     puts "#{deffective_cars.length} out of #{factory_stock_cars.length} cars were found as deffective and moved to the deffective stock"
                     deffective_cars.each do | car |
                         SlackMessenger::send_message "We're sorry to inform that the car with the engine number #{car.id.to_s} was found deffective and was transported to the deffective stock :cry:"

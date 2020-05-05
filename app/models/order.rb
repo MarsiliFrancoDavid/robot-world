@@ -3,6 +3,10 @@ class Order < ApplicationRecord
 	has_many :orderItems
 	validates :status, :retries, :in_guarantee, presence: true
 
+	def get_status
+        self.status.parameterize.underscore.to_sym
+    end
+
 	#evaluates if the order is completed based on if its items have an engine_number attribute defined, if not it means
 	#that there was no stock for the operation, wether it be first transaction, a pending transaction or an exchange
   	def checkout
@@ -28,27 +32,27 @@ class Order < ApplicationRecord
 		#based on the fact of being complete or not, set the status in the order and the output for the user and the time
 		#for when it was completed if it was.
       	if(completed)
-			self.status = "complete"
+			self.status = :complete
 			puts "Order with purchaseID : #{self.id} succesfully completed"
       	else
-			if(self.status == "pending")
+			if(self.get_status == :pending)
 				self.retries += 1
 
 				if(self.retries >= max_retries)
-					self.status = "lost sale"
+					self.status = :lost_sale
 					lost = true
 					puts "Order with purchaseID: #{self.id} was retried maximum amount of times and is now declared as lost"
 				else
 					puts "Order with purchaseID: #{self.id} wasn't sufficed and will return to the pending queue"
 				end
-        	elsif(self.status == "exchange pending")
-				self.status = "lost exchange"
+        	elsif(self.get_status == :exchange_pending)
+				self.status = :lost_exchange
 				self.retries = max_retries
 				lost = true
 				puts "Order with purchaseID: #{self.id} wasn't succesfuly exchanged and is now declared as a lost sale"
-			elsif(self.status == "incomplete")
+			elsif(self.get_status == :incomplete)
 				puts "Order with purchaseID : #{self.id} wasn't completed and it's now pending"
-            	self.status = "pending"
+            	self.status = :pending
         	end
       	end
 
